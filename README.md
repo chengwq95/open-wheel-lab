@@ -64,9 +64,9 @@ json/          Lap data for the circuit exhibit
 
 The site is hosted on Cloudflare Pages, connected to this repository:
 
-1. Framework preset: **None**, no build command
+1. Build command: `exit 0` (there is nothing to build)
 2. Build output directory: `site`
-3. Every push to `main` goes live in 1–2 minutes
+3. Production branch: `main`. Every push to `main` goes live in 1–2 minutes
 
 ## Credits
 
