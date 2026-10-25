@@ -9,8 +9,11 @@ An interactive HTML website about Formula 1 cars, with 3D visualisation in Three
 ## 2. Folder layout
 
 ```
-open-wheel-research/
-  open-wheel-lab.html            The website prototype (single file, about 320 KB)
+open-wheel-lab/
+  site/                          The published website (Cloudflare Pages serves this folder)
+    index.html                   The whole site in one file (about 460 KB)
+    og.jpg                       Social preview image
+    assets/                      Three.js, OrbitControls, RoomEnvironment, era poster images
   md/
     HANDOFF.md                   This file
     car_overview_and_history.md  Parts 1-4: car dimensions, exploded-view parts, history, engines
@@ -64,7 +67,7 @@ Alternates and the generic fallback are in the file. The Grab3D "Race Car" (CC0,
 ### json/lap_keyframes.json
 Derived, rounded per-corner data for one 2026 qualifying lap each at Monza (Verstappen), Monaco (Antonelli pole) and Silverstone (Leclerc): distance along the lap in metres, position from 0 to 1, entry and apex speed, gear, braking point, and Straight Mode (active aero low-drag) zones. Not official F1 data.
 
-## 4. The prototype: open-wheel-lab.html
+## 4. The website: site/index.html
 
 A single self-contained HTML file. By its markup it already has these sections: machine (3D exhibit), air (aerodynamics), rules, eras, timeline, circuits, power, teams, compare, pitstop, sources. It loads Three.js r128 plus OrbitControls and RoomEnvironment from public CDNs (jsDelivr and cdnjs) and Google Fonts. I found no embedded 3D model data in it, so the cars appear to be built in code. I only skimmed this file when writing the handoff; the research above was not produced from it, so check the prototype against the research files before shipping.
 
