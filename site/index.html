@@ -3715,7 +3715,6 @@ $("#pitShare").addEventListener("click",async()=>{const btn=$("#pitShare"),msg=$
   const text=LANG==="zh"?`我在 Open Wheel Lab 的换胎挑战跑出 ${pit.goT.toFixed(2)} 秒，你能打败我吗？ opensirius.com`:`I did a ${pit.goT.toFixed(2)} s pit stop on Open Wheel Lab. Can you beat it? opensirius.com`;
   let done=false;
   try{const file=new File([blob],name,{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text});done=true}}catch(e){if(e&&e.name==="AbortError")done=true}
-  if(!done&&window.claude&&window.claude.use){try{const d=await window.claude.use("downloads");if(d){await d.save({filename:name,data:blob});done=true;msg.textContent=u("cardSaved")}}catch(e){if(e&&e.code==="declined")done=true}}
   if(!done){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500);msg.textContent=u("cardSaved")}
  }catch(e){msg.textContent=u("cardFail")}finally{btn.disabled=false}});
 
