@@ -1,75 +1,46 @@
 # Open Wheel Lab
 
-An interactive guide to Formula 1 cars for people who are curious about the sport. Turn a car around in 3D, take it apart, explore how its shape changed, ride a circuit lap and try a pit stop challenge. Available in **English and Chinese**.
+An interactive guide to Formula 1 cars, built for people who are curious about the sport. Turn a car around in 3D, take it apart, explore how its shape changed, ride a circuit lap and try a pit stop challenge — in **English or Chinese**.
 
-**Live:** [open-wheel-lab.pages.dev](https://open-wheel-lab.pages.dev/) · [opensirius.com](https://opensirius.com/)
+**Live:** https://open-wheel-lab.pages.dev/ · [opensirius.com](https://opensirius.com/)
+
+---
+
+## Explore
+
+```
+Car → Air → Rules → Eras → Circuits → Power → Teams → Compare → Pit stop
+```
 
 ## Features
 
-- **3D car exhibit:** rotate and zoom, select components, switch views and explore an exploded view.
-- **Aerodynamics and 2026 rules:** plain-language explanations of wings, downforce, drag and active aero.
-- **Historical garage:** representative cars across eras, with model previews and specification cards.
-- **Circuit laps:** Monza, Monaco, Silverstone and Sepang, with speed, gear, battery and wing-mode displays.
-- **Power and teams:** power-unit explanations and team reference cards.
-- **Comparison tools:** compare cars and other vehicles, including an animated acceleration demonstration.
-- **Pit stop challenge:** an interactive timing game with feedback.
-- **Learning tools:** a glossary, quizzes, sources, language switching and light/dark themes.
+- **Interactive 3D car**: rotate and zoom, switch between inspection views, tap any of 14 components to learn what it does, or take the car apart.
+- **Adjustable car**: try different paint finishes and tyre compounds, switch the wings between Corner and Straight mode, or sit in the driver's view.
+- **Twelve historical study models**: explore representative cars from 1955 to 2026, with specification cards, dimension overlays and comparison views.
+- **Aerodynamics explained**: see how wings, downforce, drag and the floor work, with interactive diagrams and plain-language explanations.
+- **Four circuit laps**: Monza, Monaco, Silverstone and Sepang, with speed, gear, battery and wing-mode displays.
+- **Power and teams**: follow the hybrid power unit and explore team reference cards.
+- **Vehicle comparisons**: compare acceleration, top speed, braking, cornering, power-to-weight and weight; run an animated launch comparison.
+- **Pit stop challenge**: work through the steps in order, with timing, penalties and feedback.
+- **Learning tools**: a glossary, chapter quizzes, source links and notes where figures are uncertain.
+- **EN / 中文** interface switch and **light / dark** themes.
 
-The 3D cars are educational study models. Internal mechanics, shapes and lap animations include simplified or estimated elements; see the explanations and citations on the site.
+## What to try
 
-## Run locally
+1. **Take the 2026 car apart** — see where the main systems sit and what each one does.
+2. **Change an era** — compare an older car with the 2026 outline to see how size and shape evolved.
+3. **Ride a lap** — switch circuits and watch the speed trace, gears, battery and wing mode change.
+4. **Run a launch comparison** — see why a car can be quick to 100 km/h but fall behind on the way to 200.
+5. **Try a pit stop** — lift, remove the nuts, fit the wheels, lower the car and release it safely.
 
-No build step or package installation is required. Use Python 3 to serve the published website:
+## Notes built into the exhibits
 
-```sh
-python3 -m http.server 8000 --directory site
-```
+- The cars are **educational study models**, not manufacturing CAD. Unmeasured shapes and internal systems are simplified or estimated.
+- Lap figures and animations are derived or simulated illustrations, not official telemetry.
+- Figures link to the page's **Sources** section. Disputed or unconfirmed values are marked **UNVERIFIED**.
 
-Open [localhost:8000](http://localhost:8000/). Stop the server with `Ctrl+C`.
+## How to use
 
-`site/` contains the ready-to-publish website, including local Three.js libraries, previews and the social sharing image. The page includes CDN fallbacks and uses Google Fonts, so this is not a fully offline package.
+Open the live site on desktop or phone. Drag to turn the car, scroll or pinch to zoom, and tap a part to learn more. Use the chapter links to jump between exhibits.
 
-## Repository layout
-
-```text
-site/                    Published website; Pages serves this directory
-  index.html             Website entry point
-  og.jpg                 Social sharing image
-  assets/                Three.js, controls, environment helper and car previews
-open-wheel-lab.html       Standalone prototype entry point
-assets/                  Assets used by the prototype
-md/                      Research notes, sources and project handoff
-html/                    Styled research documents
-json/                    Supporting circuit-lap data
-promo/                   Promotional drafts and screenshots
-README.md                Project overview and publishing instructions
-```
-
-The repository retains the supplied research and promotional files. Only `site/` is deployed to the public website. Edit `site/index.html` and its assets for live-site changes; the root prototype is retained separately.
-
-## Cloudflare Pages
-
-This repository is connected to the existing **open-wheel-lab** Pages project. Its Pages address and custom domains remain attached to that project.
-
-| Setting | Value |
-| --- | --- |
-| Production branch | `main` |
-| Framework preset | None |
-| Build command | `exit 0` |
-| Build output directory | `site` |
-| Root directory | Repository root |
-
-Commits to `main` trigger production builds once Git integration is connected. Check the deployment result in the [Cloudflare dashboard](https://dash.cloudflare.com/0f39473a951f5f8e54437832b535da23/pages/view/open-wheel-lab).
-
-Before publishing, open the local site and check the 3D views, historical-car switching, circuit controls, language switch and pit stop game. Keep every referenced file inside `site/`.
-
-## Sources and third-party material
-
-This is an unofficial educational fan project, with no affiliation to Formula 1, the FIA or any team. Names and trademarks belong to their respective owners.
-
-- Site citations appear in the **Sources** section; research notes also contain source lists and uncertainty notes. Season-specific information should be checked before reuse.
-- Three.js and its bundled helpers retain their MIT licence notice in [`site/assets/THREE-LICENSE.txt`](site/assets/THREE-LICENSE.txt) and [`assets/THREE-LICENSE.txt`](assets/THREE-LICENSE.txt).
-- Circuit shapes are credited on the site to the MIT-licensed `bacinger/f1-circuits` dataset. Lap figures and simulations are described on the site; they are not official telemetry.
-- Research links to external 3D models do not mean those models are bundled or licensed with this repository. Check each original licence before downloading or reusing it.
-
-No blanket licence is added for the project's original content. Third-party licences continue to apply to their respective files.
+This is an unofficial educational fan project, with no affiliation to Formula 1, the FIA or any team.
