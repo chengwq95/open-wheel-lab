@@ -15,16 +15,42 @@ Car → Air → Rules → Eras → Circuits → Power → Teams → Compare → 
 ## Features
 
 - **Interactive 3D car**: rotate and zoom the 2026 car, switch between inspection views, tap any of 14 parts to learn what it does, or take the whole car apart.
+
+  ![The 2026 car in the 3D viewer](docs/images/car.jpg)
+  ![The car taken apart](docs/images/take-apart.jpg)
+
 - **Make it yours**: try different paint finishes and tyre compounds, switch the wings between Corner and Straight mode, or sit in the driver's seat.
 - **Twelve era study models** from 1955 to 2026, each with a spec card, size overlays against the 2026 outline, and a timeline of rule changes and safety milestones.
+
+  ![A 1955 car overlaid on the 2026 outline](docs/images/eras.jpg)
+
 - **Aerodynamics explained**: wings, the floor, downforce and drag, with diagrams you can play with.
+
+  ![Wing and floor diagrams](docs/images/aerodynamics.jpg)
+
 - **Four circuit laps**: Monza, Monaco, Silverstone and Sepang.
   - Watch speed, gear, battery level and wing mode change through the lap.
   - Monza, Monaco and Silverstone use speeds derived from real 2026 qualifying laps.
+
+  ![A lap of Sepang with live speed, gear and battery](docs/images/circuits.jpg)
+
 - **Power unit**: follow energy through the 2026 hybrid (engine, electric motor and battery) and compare peak power across the eras.
+
+  ![How braking energy flows into the battery](docs/images/power-unit.jpg)
+
 - **Eleven 2026 teams**: base, power unit, car, drivers and titles, filterable by power-unit supplier.
+
+  ![Team cards](docs/images/teams.jpg)
+
 - **Head to head**: put the F1 car against a family car, a supercar, an airliner and a fighter jet on acceleration, top speed, braking, cornering, power-to-weight and weight. You can also run an animated launch to 200 km/h.
+
+  ![Comparison bars for 0–100 km/h](docs/images/compare.jpg)
+  ![Animated launch to 200 km/h](docs/images/launch.jpg)
+
 - **Pit stop game**: lift the car, change four wheels and release it safely, with timing, penalties and feedback. Then compare your stop with a real 2.2-second one.
+
+  ![The pit stop game](docs/images/pit-stop.jpg)
+
 - **Learning tools**: an exhibit guide, a glossary, a short quiz at the end of each chapter, and a full **Sources** list.
 - **English / Chinese** interface switch and **light / dark** themes.
 - Works on desktop and phone.
@@ -58,6 +84,7 @@ site/          The website (this folder is what gets published)
 md/            Research notes behind the site: facts, sources and open questions
 html/          The same research notes, styled for reading in a browser
 json/          Lap data for the circuit exhibit
+docs/images/   Screenshots used in this README
 ```
 
 ## Deploy
