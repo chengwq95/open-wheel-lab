@@ -1,0 +1,626 @@
+{
+ "_note": "Derived, rounded figures from one 2026 qualifying lap per circuit (F1 live timing via FastF1 3.8.3, ~4 Hz car data). Distances are metres from the timing line along that lap. Straight Mode zone starts from FIA 2026 event circuit maps. Not official F1 data; see f1_features_research.md for sources and licence notes.",
+ "circuits": {
+  "Italy": {
+   "lap": "01:22.070",
+   "driver": "VER",
+   "lap_length_m": 5759,
+   "top_speed_kmh": 334,
+   "corners": [
+    {
+     "turn": "1",
+     "name": "Variante del Rettifilo (1st chicane, in)",
+     "dist_m": 886,
+     "u": 0.1538,
+     "apex_kmh": 80,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 325,
+     "brake_on_m": 784
+    },
+    {
+     "turn": "2",
+     "name": "Variante del Rettifilo (out)",
+     "dist_m": 942,
+     "u": 0.1636,
+     "apex_kmh": 75,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 325,
+     "brake_on_m": 784
+    },
+    {
+     "turn": "3",
+     "name": "Curva Biassono / Curva Grande",
+     "dist_m": 1463,
+     "u": 0.254,
+     "apex_kmh": 300,
+     "apex_gear": 8,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "4",
+     "name": "Variante della Roggia (in)",
+     "dist_m": 2107,
+     "u": 0.3659,
+     "apex_kmh": 110,
+     "apex_gear": 3,
+     "flat_out": false,
+     "entry_kmh": 300,
+     "brake_on_m": 2009
+    },
+    {
+     "turn": "5",
+     "name": "Variante della Roggia (out)",
+     "dist_m": 2159,
+     "u": 0.3749,
+     "apex_kmh": 110,
+     "apex_gear": 3,
+     "flat_out": false,
+     "entry_kmh": 300,
+     "brake_on_m": 2009
+    },
+    {
+     "turn": "6",
+     "name": "Lesmo 1",
+     "dist_m": 2513,
+     "u": 0.4364,
+     "apex_kmh": 195,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 235,
+     "brake_on_m": 2430
+    },
+    {
+     "turn": "7",
+     "name": "Lesmo 2",
+     "dist_m": 2840,
+     "u": 0.4931,
+     "apex_kmh": 185,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 240,
+     "brake_on_m": 2772
+    },
+    {
+     "turn": "8",
+     "name": "Variante Ascari (in)",
+     "dist_m": 3913,
+     "u": 0.6795,
+     "apex_kmh": 185,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 310,
+     "brake_on_m": 3823
+    },
+    {
+     "turn": "9",
+     "name": "Variante Ascari (middle)",
+     "dist_m": 4000,
+     "u": 0.6946,
+     "apex_kmh": 195,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 310,
+     "brake_on_m": 3823
+    },
+    {
+     "turn": "10",
+     "name": "Variante Ascari (out)",
+     "dist_m": 4095,
+     "u": 0.7111,
+     "apex_kmh": 235,
+     "apex_gear": 6,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "11",
+     "name": "Curva Alboreto (Parabolica)",
+     "dist_m": 5190,
+     "u": 0.9012,
+     "apex_kmh": 205,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 310,
+     "brake_on_m": 5035
+    }
+   ],
+   "straight_mode_zones": [
+    {
+     "zone": "A1",
+     "opens": "30 m after T11",
+     "opens_low_grip": "100 m after T11",
+     "approx_start_m": 5220,
+     "approx_end_m": 784,
+     "ends": "when driver brakes/lifts or at zone end before T1"
+    },
+    {
+     "zone": "A2",
+     "opens": "70 m after T3",
+     "opens_low_grip": "110 m after T3",
+     "approx_start_m": 1533,
+     "approx_end_m": 2009,
+     "ends": "when driver brakes/lifts or at zone end before T4"
+    },
+    {
+     "zone": "A3",
+     "opens": "170 m after T7",
+     "opens_low_grip": "230 m after T7",
+     "approx_start_m": 3010,
+     "approx_end_m": 3823,
+     "ends": "when driver brakes/lifts or at zone end before T8"
+    },
+    {
+     "zone": "A4",
+     "opens": "130 m after T10",
+     "opens_low_grip": "180 m after T10",
+     "approx_start_m": 4225,
+     "approx_end_m": 5035,
+     "ends": "when driver brakes/lifts or at zone end before T11"
+    }
+   ]
+  },
+  "Monaco": {
+   "lap": "01:12.051",
+   "driver": "ANT",
+   "lap_length_m": 3270,
+   "top_speed_kmh": 289,
+   "corners": [
+    {
+     "turn": "1",
+     "name": "Sainte Dévote",
+     "dist_m": 181,
+     "u": 0.0554,
+     "apex_kmh": 110,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 275,
+     "brake_on_m": 92
+    },
+    {
+     "turn": "2",
+     "name": "Beau Rivage (uphill kink)",
+     "dist_m": 568,
+     "u": 0.1737,
+     "apex_kmh": 265,
+     "apex_gear": 6,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "3",
+     "name": "Massenet",
+     "dist_m": 737,
+     "u": 0.2254,
+     "apex_kmh": 155,
+     "apex_gear": 3,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": 637
+    },
+    {
+     "turn": "4",
+     "name": "Casino Square",
+     "dist_m": 857,
+     "u": 0.2621,
+     "apex_kmh": 140,
+     "apex_gear": 3,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": 637
+    },
+    {
+     "turn": "5",
+     "name": "Mirabeau Haute",
+     "dist_m": 1089,
+     "u": 0.333,
+     "apex_kmh": 75,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 220,
+     "brake_on_m": 1019
+    },
+    {
+     "turn": "6",
+     "name": "Grand Hotel hairpin",
+     "dist_m": 1215,
+     "u": 0.3716,
+     "apex_kmh": 45,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 220,
+     "brake_on_m": 1019
+    },
+    {
+     "turn": "7",
+     "name": "Mirabeau Bas",
+     "dist_m": 1288,
+     "u": 0.3939,
+     "apex_kmh": 60,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 220,
+     "brake_on_m": 1019
+    },
+    {
+     "turn": "8",
+     "name": "Portier",
+     "dist_m": 1382,
+     "u": 0.4226,
+     "apex_kmh": 80,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 220,
+     "brake_on_m": 1019
+    },
+    {
+     "turn": "9",
+     "name": "Tunnel",
+     "dist_m": 1714,
+     "u": 0.5242,
+     "apex_kmh": 260,
+     "apex_gear": 6,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "10",
+     "name": "Nouvelle Chicane (in)",
+     "dist_m": 2038,
+     "u": 0.6232,
+     "apex_kmh": 70,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 290,
+     "brake_on_m": 1951
+    },
+    {
+     "turn": "11",
+     "name": "Nouvelle Chicane (out)",
+     "dist_m": 2089,
+     "u": 0.6388,
+     "apex_kmh": 70,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 290,
+     "brake_on_m": 1951
+    },
+    {
+     "turn": "12",
+     "name": "Tabac",
+     "dist_m": 2323,
+     "u": 0.7104,
+     "apex_kmh": 170,
+     "apex_gear": 4,
+     "flat_out": false,
+     "entry_kmh": 240,
+     "brake_on_m": 2263
+    },
+    {
+     "turn": "13",
+     "name": "Swimming Pool (in)",
+     "dist_m": 2473,
+     "u": 0.7563,
+     "apex_kmh": 225,
+     "apex_gear": 5,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "14",
+     "name": "Swimming Pool (out)",
+     "dist_m": 2498,
+     "u": 0.7639,
+     "apex_kmh": 230,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 230,
+     "brake_on_m": null
+    },
+    {
+     "turn": "15",
+     "name": "Second pool chicane (in)",
+     "dist_m": 2631,
+     "u": 0.8046,
+     "apex_kmh": 120,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 250,
+     "brake_on_m": 2569
+    },
+    {
+     "turn": "16",
+     "name": "Second pool chicane (out)",
+     "dist_m": 2654,
+     "u": 0.8116,
+     "apex_kmh": 120,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 250,
+     "brake_on_m": 2569
+    },
+    {
+     "turn": "17",
+     "name": "Kink before Rascasse",
+     "dist_m": 2733,
+     "u": 0.8358,
+     "apex_kmh": 135,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 250,
+     "brake_on_m": 2569
+    },
+    {
+     "turn": "18",
+     "name": "La Rascasse",
+     "dist_m": 2844,
+     "u": 0.8697,
+     "apex_kmh": 60,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 200,
+     "brake_on_m": 2769
+    },
+    {
+     "turn": "19",
+     "name": "Anthony Noghès",
+     "dist_m": 2933,
+     "u": 0.8969,
+     "apex_kmh": 85,
+     "apex_gear": 1,
+     "flat_out": false,
+     "entry_kmh": 200,
+     "brake_on_m": 2769
+    }
+   ],
+   "straight_mode_zones": []
+  },
+  "British": {
+   "lap": "01:28.286",
+   "driver": "LEC",
+   "lap_length_m": 5840,
+   "top_speed_kmh": 316,
+   "corners": [
+    {
+     "turn": "1",
+     "name": "Abbey",
+     "dist_m": 441,
+     "u": 0.0755,
+     "apex_kmh": 295,
+     "apex_gear": 8,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "2",
+     "name": "Farm",
+     "dist_m": 602,
+     "u": 0.1031,
+     "apex_kmh": 280,
+     "apex_gear": 7,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "3",
+     "name": "Village",
+     "dist_m": 866,
+     "u": 0.1483,
+     "apex_kmh": 115,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 245,
+     "brake_on_m": 807
+    },
+    {
+     "turn": "4",
+     "name": "The Loop",
+     "dist_m": 1028,
+     "u": 0.176,
+     "apex_kmh": 85,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 245,
+     "brake_on_m": 807
+    },
+    {
+     "turn": "5",
+     "name": "Aintree",
+     "dist_m": 1225,
+     "u": 0.2098,
+     "apex_kmh": 215,
+     "apex_gear": 5,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "6",
+     "name": "Brooklands",
+     "dist_m": 1949,
+     "u": 0.3337,
+     "apex_kmh": 170,
+     "apex_gear": 4,
+     "flat_out": false,
+     "entry_kmh": 265,
+     "brake_on_m": 1888
+    },
+    {
+     "turn": "7",
+     "name": "Luffield",
+     "dist_m": 2182,
+     "u": 0.3736,
+     "apex_kmh": 110,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 190,
+     "brake_on_m": 2074
+    },
+    {
+     "turn": "8",
+     "name": "Woodcote",
+     "dist_m": 2538,
+     "u": 0.4346,
+     "apex_kmh": 280,
+     "apex_gear": 7,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "9",
+     "name": "Copse",
+     "dist_m": 3059,
+     "u": 0.5238,
+     "apex_kmh": 290,
+     "apex_gear": 7,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "10",
+     "name": "Maggotts",
+     "dist_m": 3600,
+     "u": 0.6164,
+     "apex_kmh": 285,
+     "apex_gear": 7,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "11",
+     "name": "Becketts (1)",
+     "dist_m": 3702,
+     "u": 0.6339,
+     "apex_kmh": 270,
+     "apex_gear": 7,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "12",
+     "name": "Becketts (2)",
+     "dist_m": 3843,
+     "u": 0.658,
+     "apex_kmh": 255,
+     "apex_gear": 6,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": null
+    },
+    {
+     "turn": "13",
+     "name": "Becketts (3)",
+     "dist_m": 3987,
+     "u": 0.6827,
+     "apex_kmh": 210,
+     "apex_gear": 5,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": 3922
+    },
+    {
+     "turn": "14",
+     "name": "Chapel",
+     "dist_m": 4128,
+     "u": 0.7068,
+     "apex_kmh": 230,
+     "apex_gear": 5,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    },
+    {
+     "turn": "15",
+     "name": "Stowe",
+     "dist_m": 5001,
+     "u": 0.8563,
+     "apex_kmh": 225,
+     "apex_gear": 6,
+     "flat_out": false,
+     "entry_kmh": 290,
+     "brake_on_m": 4924
+    },
+    {
+     "turn": "16",
+     "name": "Vale",
+     "dist_m": 5444,
+     "u": 0.9322,
+     "apex_kmh": 110,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": 5411
+    },
+    {
+     "turn": "17",
+     "name": "Club (in)",
+     "dist_m": 5532,
+     "u": 0.9473,
+     "apex_kmh": 110,
+     "apex_gear": 2,
+     "flat_out": false,
+     "entry_kmh": 270,
+     "brake_on_m": 5411
+    },
+    {
+     "turn": "18",
+     "name": "Club (out)",
+     "dist_m": 5691,
+     "u": 0.9745,
+     "apex_kmh": 185,
+     "apex_gear": 4,
+     "flat_out": true,
+     "entry_kmh": null,
+     "brake_on_m": null
+    }
+   ],
+   "straight_mode_zones": [
+    {
+     "zone": "A1",
+     "opens": "65 m after T18",
+     "opens_low_grip": "115 m after T18",
+     "approx_start_m": 5756,
+     "approx_end_m": 291,
+     "ends": "when driver brakes/lifts or at zone end before T1"
+    },
+    {
+     "zone": "A2",
+     "opens": "55 m after T5",
+     "opens_low_grip": "115 m after T5",
+     "approx_start_m": 1280,
+     "approx_end_m": 1888,
+     "ends": "when driver brakes/lifts or at zone end before T6"
+    },
+    {
+     "zone": "A3",
+     "opens": "155 m after T7",
+     "opens_low_grip": "disabled in low grip",
+     "approx_start_m": 2337,
+     "approx_end_m": 2909,
+     "ends": "when driver brakes/lifts or at zone end before T9"
+    },
+    {
+     "zone": "A4",
+     "opens": "65 m after T14",
+     "opens_low_grip": "125 m after T14",
+     "approx_start_m": 4193,
+     "approx_end_m": 4924,
+     "ends": "when driver brakes/lifts or at zone end before T15"
+    }
+   ]
+  }
+ }
+}
