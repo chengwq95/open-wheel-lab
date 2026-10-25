@@ -8,6 +8,3 @@ node_modules/
 *.log
 __pycache__/
 *.pyc
-
-# Keep local promotional material out of the repository.
-promo/

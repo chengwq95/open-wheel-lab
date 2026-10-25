@@ -68,7 +68,6 @@ Car → Air → Rules → Eras → Circuits → Power → Teams → Compare → 
 - The cars are **educational study models**, not engineering drawings. Shapes nobody has measured, and internal parts, are simplified or estimated.
 - Lap figures and animations are derived or simulated illustrations, not official telemetry.
 - Figures link to the page's **Sources** section. Disputed or unconfirmed values are marked **UNVERIFIED**.
-- Team and driver details were last checked in October 2026. The page keeps no race calendar; it links to [formula1.com](https://www.formula1.com/) for the latest schedule and results.
 
 ## How to use
 
