@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formula 1 Cars Research Brief (14 Oct 2026)</title>
+<style>
+:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.5; color: #122; }
+body { max-width: 52rem; margin: 2rem auto; padding: 0 1.25rem 4rem; }
+h1,h2,h3 { line-height: 1.25; }
+h1 { font-size: 1.75rem; }
+h2 { margin-top: 2.2rem; border-bottom: 2px solid #e10600; padding-bottom: .25rem; }
+h3 { margin-top: 1.5rem; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; margin: 1rem 0; }
+th, td { border: 1px solid #ccd; padding: .45rem .55rem; vertical-align: top; }
+th { background: #f4f6f8; text-align: left; }
+code { background: #f0f2f5; padding: .1rem .3rem; border-radius: 3px; }
+a { color: #0b57d0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 2rem 0; }
+strong { font-weight: 650; }
+</style>
+</head>
+<body>
+<h1>Formula 1 Cars Research Brief</h1>
+
+<p><strong>Purpose:</strong> Reference material for an interactive Three.js website about Formula 1 cars, aimed at a general audience (readers who have never watched F1).  </p>
+<p><strong>Research date:</strong> 14 October 2026 (Asia/Kuala_Lumpur, MYT).  </p>
+<p><strong>Units:</strong> Metric first; imperial in brackets where helpful.  </p>
+<p><strong>Method:</strong> Figures taken from FIA technical materials, Formula1.com, manufacturer/team sites, Pirelli, and selected technical press. Every numeric claim has a source link. Conflicting or soft figures are marked <strong>UNVERIFIED</strong>.</p>
+
+<hr>
+
+<h2>Part 1 — Car overview (2026 regulations)</h2>
+
+<h3>What is a Formula 1 car?</h3>
+
+<p>A Formula 1 (F1) car is a single-seat racing car built to a strict rule book written by the FIA (Fédération Internationale de l’Automobile — the sport’s governing body). Teams design their own chassis (the main body and structure), while a small number of manufacturers supply the <strong>power unit</strong> (the engine plus electric hybrid system). Tyres come from one supplier, Pirelli. The cars race on purpose-built circuits and some street courses around the world.</p>
+
+<h3>Key dimensions (2026-regulation car)</h3>
+
+<table>
+<thead><tr><th>Parameter</th><th>2026 value</th><th>Everyday comparison / note</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Maximum wheelbase</td><td><strong>3,400 mm</strong> (≈ 11.2 ft)</td><td>Distance between front and rear axle centres; about 200 mm shorter than 2022–2025</td><td><a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA 2026 announcement</a>; <a href="https://api.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_c_technical_-_iss_20_-_2026-08-05.pdf" rel="noopener">FIA Technical Regulations §C2.3.3</a></td></tr>
+<tr><td>Maximum width (body)</td><td><strong>1,900 mm</strong> (≈ 6.2 ft)</td><td>No bodywork more than 950 mm from the car centreline (tyres/rims excepted)</td><td>Same FIA sources</td></tr>
+<tr><td>Maximum floor width</td><td>Reduced by <strong>150 mm</strong> vs previous generation</td><td>Helps make the car narrower and less “barge-like”</td><td><a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA announcement</a></td></tr>
+<tr><td>Minimum weight</td><td><strong>768 kg</strong> (≈ 1,693 lb)</td><td>About 722 kg car + driver + 46 kg estimated tyre mass; down from 800 kg in 2025</td><td><a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP" rel="noopener">Formula1.com</a></td></tr>
+<tr><td>Wheel rim diameter</td><td><strong>18 inch</strong></td><td>Same rim size as 2022–2025</td><td><a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://press.pirelli.com/pirelli-reveals-2026-f1-tyres-a-fresh-logo-design-and-new-compounds/" rel="noopener">Pirelli</a></td></tr>
+<tr><td>Front tyre</td><td><strong>280 mm</strong> wide × <strong>705 mm</strong> overall diameter</td><td>≈ 11.0 in wide × 27.8 in tall; 25 mm narrower than previous</td><td><a href="https://www.mercedesamgf1.com/news/what-are-the-tyre-options-for-the-2026-italian-gp" rel="noopener">Mercedes / Pirelli summary</a>; <a href="https://press.pirelli.com/pirelli-reveals-2026-f1-tyres-a-fresh-logo-design-and-new-compounds/" rel="noopener">Pirelli press</a></td></tr>
+<tr><td>Rear tyre</td><td><strong>375 mm</strong> wide × <strong>710 mm</strong> overall diameter</td><td>≈ 14.8 in wide × 28.0 in tall; 30 mm narrower than previous</td><td>Same</td></tr>
+<tr><td>Overall car length</td><td><strong>No single FIA maximum published</strong></td><td>Teams size the nose and rear body within other limits (wheelbase, cockpit, bulkheads). Typical modern F1 cars are roughly <strong>5.2–5.6 m</strong> long</td><td><strong>UNVERIFIED</strong> as a hard limit — see FIA §C2 geometry (wheelbase/cockpit) rather than a length cap: <a href="https://api.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_c_technical_-_iss_20_-_2026-08-05.pdf" rel="noopener">PDF</a></td></tr>
+<tr><td>Ride height (racing)</td><td><strong>No single published “race ride height”</strong></td><td>Rules define a “Legality Setup” and a wooden/composite <strong>plank</strong> under the floor that limits how low the car can run; 2026 floors are partly flatter so cars need less extreme low setups</td><td><a href="https://www.fia.com/sites/default/files/fia_2026_formula_1_technical_regulations_issue_8_-_2024-06-24.pdf" rel="noopener">FIA Technical Regulations</a>; <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">Formula1.com aero explain</a></td></tr>
+</tbody></table>
+
+<p><strong>UNVERIFIED — tyre overall diameter change:</strong> Pirelli states overall diameter is <strong>15 mm less at the front and 10 mm less at the rear</strong> versus the previous generation (<a href="https://press.pirelli.com/pirelli-reveals-2026-f1-tyres-a-fresh-logo-design-and-new-compounds/" rel="noopener">Pirelli</a>). A Formula1.com aero article instead says diameter shrinks <strong>15 mm front and 30 mm rear</strong> (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">F1.com</a>). Prefer Pirelli + Mercedes absolute sizes (705 / 710 mm) for the website.</p>
+
+<p><strong>UNVERIFIED — weight baseline wording:</strong> FIA (June 2024) described 768 kg as “down 30 kg on counterparts from 2022.” Formula1.com (2026) describes the drop as from <strong>800 kg in 2025</strong> to 768 kg. Both can be true across different reference years; cite the year you mean.</p>
+
+<h3>Main visual differences vs 2022–2025 cars</h3>
+
+<ol><li><strong>Smaller and lighter.</strong> Shorter wheelbase (−200 mm), narrower body (−100 mm), slimmer tyres, lower minimum weight. The “nimble car” idea is to make cars easier to place in corners and leave more track space for side-by-side racing (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP" rel="noopener">F1.com</a>).</li></ol>
+
+<ol><li><strong>Active aerodynamics instead of DRS-only.</strong> Both front and rear wings have moveable flaps. In <strong>Corner Mode</strong> (also called Z-mode in earlier FIA wording) flaps give high <strong>downforce</strong> (air pushing the car into the track for grip). In <strong>Straight Mode</strong> (X-mode) flaps open like a Venetian blind to cut <strong>drag</strong> (air resistance) so the car goes faster in a straight line. Unlike old <strong>DRS</strong> (Drag Reduction System — a rear-wing flap only the chasing car could open when close enough), Straight Mode is available to every car in designated zones (<a href="https://www.fia.com/news/f1s-new-era-everything-you-need-know-about-how-fia-making-formula-1-more-competitive-more" rel="noopener">FIA</a>; <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">F1.com aero</a>).</li></ol>
+
+<ol><li><strong>Flatter floor; Venturi tunnels gone.</strong> The deep underfloor tunnels of 2022–2025 (a return of “ground effect”) are removed. The floor is flatter with a larger <strong>diffuser</strong> (the upswept rear underbody that slows and expands airflow). Ground-effect suction is much weaker (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">F1.com</a>).</li></ol>
+
+<ol><li><strong>Simpler rear wing, no beam wing.</strong> The small wing under the main rear wing (beam wing) is banned; endplates are simpler; front wing is narrower with a two-element active flap (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</li></ol>
+
+<ol><li><strong>Wheel covers removed; bargeboards return.</strong> Front wheel arches used in the previous generation are gone. Small <strong>bargeboards</strong> (vertical panels) help pull dirty air from the front wheels inward so the car behind has cleaner air (<a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP" rel="noopener">F1.com</a>).</li></ol>
+
+<ol><li><strong>Power unit looks similar but is electrically much stronger.</strong> Still a 1.6-litre V6 turbo hybrid, but without the MGU-H and with roughly a 50/50 combustion/electric power split (see Part 4).</li></ol>
+
+<p><strong>Fun fact:</strong> The FIA says the 2026 rules cut downforce by about <strong>30%</strong> and drag by about <strong>55%</strong> versus the previous concept — less “stuck to the road,” more efficient in a straight line (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</p>
+
+<h3>3D model resources for Three.js</h3>
+
+<p><strong>Goal:</strong> glTF/GLB, ideally separate meshes for an exploded view, public-website-friendly licence (CC0 or CC-BY), <strong>no real team liveries, sponsor logos, or trademarks</strong>.</p>
+
+<h4>Recommended ready-to-use assets</h4>
+
+<table>
+<thead><tr><th>Model</th><th>Format</th><th>Polys / size</th><th>Licence</th><th>Separate parts?</th><th>Author / notes</th><th>Download</th></tr></thead>
+<tbody>
+<tr><td><strong>Race Car</strong> (stylised open-wheel, apricot body, halo, no sponsors)</td><td>GLB, FBX, BLEND, USDZ, OBJ</td><td><strong>19,440</strong> triangles; GLB <strong>≈ 1.1–1.2 MB</strong>; 2K textures</td><td><strong>CC0 1.0</strong> (public domain; commercial OK, no attribution required)</td><td>Wheels separate (roll + steer); steering wheel separate; body as cohesive stylised mesh — good starter, not a full mechanical explode</td><td>Grab3D / Cozy Boats &amp; Aircraft Kit; published 26 Sep 2026; dims ≈ 1.92 × 5.28 × 1.02 m</td><td>Page: <a href="https://grab3d.com/models/vehicles/race-car/" rel="noopener">grab3d.com/models/vehicles/race-car</a> · GLB: <a href="https://grab3d.com/dl/race-car/race-car.glb" rel="noopener">grab3d.com/dl/race-car/race-car.glb</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="noopener">CC0</a></td></tr>
+<tr><td><strong>Generic Formula Car (better version)</strong></td><td>Sketchfab downloadable (glTF/GLB via Sketchfab)</td><td><strong>16,564</strong> triangles; 8,630 verts</td><td><strong>CC BY 4.0</strong> (credit author; commercial OK)</td><td>Generic formula look; verify mesh groups after import</td><td>CarlosCG31</td><td><a href="https://sketchfab.com/3d-models/generic-formula-car-better-version-46e0805e009a42f297405d943d6ce22e" rel="noopener">Sketchfab</a> · <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a></td></tr>
+<tr><td><strong>Formula F211</strong></td><td>Sketchfab downloadable</td><td><strong>36,892</strong> faces</td><td><strong>CC BY 4.0</strong></td><td>Stylised 2011-era formula car; useful for history gallery, not 2026 accuracy</td><td>CarlosCG31</td><td><a href="https://sketchfab.com/3d-models/formula-f211-cada3b67c43744adadee21adcabc4fc4" rel="noopener">Sketchfab</a></td></tr>
+</tbody></table>
+
+<p><strong>Link check (14 Oct 2026 MYT):</strong> Grab3D page and GLB returned HTTP 200 (GLB download size ≈ 1,180,436 bytes). Sketchfab pages returned HTTP 200. CC0/CC-BY licence URLs returned HTTP 200.</p>
+
+<h4>Not suitable (for this brief)</h4>
+
+<ul><li><strong>Team-liveried models</strong> (Ferrari, McLaren, Alpine, Aston Martin, etc.) even if CC-BY — trademark/livery risk for a public site.</li><li><strong>CC BY-NC / NC-SA</strong> models — non-commercial clauses block many public websites.</li><li><strong>AI “exploded chassis” demos</strong> on generative platforms without a clear reusable licence.</li><li><strong>3dassets.dev</strong> listed a CC0 open-wheel car on jacks (≈ 4.3k tris, 0.2 MB GLB) during research indexing, but the asset page/CDN returned <strong>HTTP 503 / failed</strong> when verified on 14 Oct 2026 — do not rely on it until the host is stable.</li></ul>
+
+<h4>Poly Pizza</h4>
+
+<p>Search for open-wheel / formula assets on <a href="https://poly.pizza" rel="noopener">Poly Pizza</a> did not surface a clearly licensed generic F1-style car suitable for this project (mostly closed-wheel sports cars). Treat as a secondary hunt later.</p>
+
+<h4>If you need a true exploded view</h4>
+
+<p>No freely licensed, production-quality <strong>component-separated</strong> 2026 F1 car was found. Practical path for Three.js:</p>
+
+<ol><li>Start from the <strong>Grab3D CC0</strong> car for overall silhouette, wheels, halo, and steering wheel.</li><li>Model simplified separate parts (wing, floor, sidepods, monocoque, PU block, gearbox, suspension, brakes, tyres, halo) using official geometry envelopes.</li><li>Reference drawings (build simplified meshes; do not copy team CAD or liveries):</li></ol>
+<p>   - <a href="https://api.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_c_technical_-_iss_20_-_2026-08-05.pdf" rel="noopener">FIA 2026 Technical Regulations — Section C (Iss. 20)</a> — reference volumes, dimensions, legality setup.</p>
+<p>   - <a href="https://www.fia.com/sites/default/files/fia_2026_formula_1_technical_regulations_issue_8_-_2024-06-24.pdf" rel="noopener">FIA 2026 Technical Regulations (Issue 8 overview PDF)</a></p>
+<p>   - FIA / Formula 1 public show-car photography and cutaway explainers on Formula1.com (aero and power-unit articles linked throughout this brief).</p>
+
+<p><strong>Fun fact for the website UI:</strong> A lightweight GLB under ~2 MB loads fast on phones — the Grab3D car already fits that budget.</p>
+
+<hr>
+
+<h2>Part 2 — Exploded view components</h2>
+
+<p>Each entry: plain-language name, where it sits, what it does, materials, approx size/weight, fun fact. Sizes/weights that are team-secret or era-dependent are marked <strong>UNVERIFIED</strong>.</p>
+
+<h3>Survival cell / monocoque</h3>
+
+<p><strong>Monocoque</strong> means the outer shell is also the structure — like an eggshell that is both container and strength. In F1 it is the <strong>survival cell</strong>: the carbon-fibre “tub” that surrounds the driver from the pedals to behind the seat.  </p>
+<p>It sits in the middle of the car; the nose, sidepods, floor, engine and gearbox bolt to it.  </p>
+<p>Modern cells use carbon-fibre composite skins with honeycomb cores (often aluminium honeycomb). Approximate mass of the bare tub is often quoted around <strong>30–40 kg</strong>, but exact figures are team-confidential — <strong>UNVERIFIED</strong> for 2026.  </p>
+<p>Lotus introduced a stressed aluminium monocoque (Lotus 25, 1962); McLaren’s MP4/1 (1981) popularised full carbon-fibre cells (<a href="https://www.theengineer.co.uk/content/in-depth/milestone-breakthroughs-from-75-years-of-f1-innovation" rel="noopener">The Engineer F1@75</a>).  </p>
+<p><strong>Fun fact:</strong> Crash tests get tougher each rules cycle — 2026 raises roll-hoop loads and adds a two-stage nose impact structure (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</p>
+
+<h3>Front wing</h3>
+
+<p>A multi-element wing hanging under the nose. It creates downforce at the front and carefully steers airflow around the front tyres toward the floor and sidepods.  </p>
+<p>2026: narrower (−100 mm), simpler, with a <strong>two-element active flap</strong> that drops in Straight Mode (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).  </p>
+<p>Materials: carbon-fibre composite. Width approaches the front track but is regulated; weight is a few kilograms as a complete assembly — <strong>UNVERIFIED</strong> exact kg.  </p>
+<p><strong>Fun fact:</strong> Teams used to adjust front-wing angle only in the garage or pit stop; now the car can change flap angle on the move in legal zones (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">F1.com</a>).</p>
+
+<h3>Rear wing &amp; active aero (replacing DRS)</h3>
+
+<p>The tall wing at the back. In Corner Mode it makes strong rear downforce; in Straight Mode its top elements open to cut drag.  </p>
+<p>2026 uses a <strong>three-element active rear wing</strong>; the old beam wing underneath is gone (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).  </p>
+<p><strong>How this replaces DRS:</strong> From 2011–2025, DRS let only a chasing car (usually within 1 second) open a rear flap in special zones. Active aero Straight Mode is available to <strong>all</strong> cars in designated straight zones; a separate <strong>Overtake Mode</strong> (extra battery energy when within ~1 second at a detection point) takes over the “help the car behind” role (<a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP" rel="noopener">F1.com</a>; <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com PU</a>).  </p>
+<p>Materials: carbon fibre; actuators and sensors inside the endplates/wing body.  </p>
+<p><strong>Fun fact:</strong> Think of Straight Mode as the car temporarily “closing its parachute” so it can sprint down the straight, then opening the parachute again for the next corner.</p>
+
+<h3>Floor &amp; Venturi tunnels</h3>
+
+<p>The underside of the car. In 2022–2025, deep <strong>Venturi tunnels</strong> sped up air under the car so pressure dropped and the car was sucked down (<strong>ground effect</strong> — using the road surface like the other half of a wing).  </p>
+<p>In 2026 those tunnels are removed; the floor is flatter with a larger rear <strong>diffuser</strong>. Some underbody performance remains, but it is less dominant (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB" rel="noopener">F1.com</a>).  </p>
+<p>A sacrificial <strong>plank</strong> under the floor wears if the car scrapes; too much wear fails scrutineering.  </p>
+<p>Materials: carbon sandwich; plank often wood/composite per regulations. Overall floor is roughly car-width × wheelbase-scale — largest aero part by area.  </p>
+<p><strong>Fun fact:</strong> Ground effect was invented for F1 by Lotus in the late 1970s, banned in the 1980s, brought back in 2022, then dialled back again for 2026 (<a href="https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i" rel="noopener">F1.com history</a>).</p>
+
+<h3>Sidepods &amp; cooling</h3>
+
+<p>The bodywork beside the cockpit. They house radiators and coolers for the engine, turbo, oil, and hybrid electronics, and shape airflow toward the rear wing and floor.  </p>
+<p>Intakes scoop air; outlets dump hot air. Packaging is a big performance differentiator between teams.  </p>
+<p>Materials: carbon bodywork over metal heat exchangers. Size: roughly the volume of two large suitcases split left/right — <strong>UNVERIFIED</strong> exact litres.  </p>
+<p><strong>Fun fact:</strong> Sidepod shapes became famous in 2022 (including Mercedes’ extreme “zero sidepod” look); 2026 rules again reshape what teams are allowed to do with wheel wake and in-wash boards (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</p>
+
+<h3>Power unit (ICE, MGU-K, energy store, control electronics)</h3>
+
+<p><strong>Power unit (PU)</strong> = everything that makes propulsion power, not just the petrol engine.  </p>
+<ul><li><strong>ICE</strong> — Internal Combustion Engine: the 1.6-litre turbocharged V6 that burns fuel.  </li><li><strong>MGU-K</strong> — Motor Generator Unit–Kinetic: an electric motor/generator on the drivetrain that recovers energy when slowing and can drive the wheels when boosting.  </li><li><strong>Energy store (ES)</strong> — the battery pack that holds recovered electricity.  </li><li><strong>Control electronics (CE)</strong> — the computers and power electronics that manage hybrid energy.  </li><li><em>(2014–2025 also had an <strong>MGU-H</strong> harvesting turbo/exhaust heat; removed for 2026.)</em>  </li></ul>
+
+<p>Location: behind the driver, ahead of the gearbox, with radiators in the sidepods and the battery typically low in the chassis.  </p>
+<p>2026 headline numbers: ICE ≈ <strong>400 kW</strong>, MGU-K <strong>350 kW</strong>, target ≈ <strong>50/50</strong> split, total peak still <strong>700+ kW</strong> class (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://www.mercedesamgf1.com/facts-and-stats-power-unit-regulation-changes" rel="noopener">Mercedes</a>; <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>).  </p>
+<p>Previous-generation energy store minimum mass was <strong>20 kg</strong> (Mercedes W15/W16 tech sheets) — treat 2026 battery mass as <strong>UNVERIFIED</strong> until a 2026 homologation figure is published for your site.  </p>
+<p><strong>Fun fact:</strong> Removing the complex MGU-H helped attract new manufacturers (Audi, Red Bull Ford, Honda return as full works) (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>).</p>
+
+<h3>Gearbox</h3>
+
+<p>Sits behind the engine and drives the rear wheels. Modern F1 uses a <strong>semi-automatic sequential</strong> gearbox: the driver pulls paddles on the steering wheel; electro-hydraulic actuators change gears in milliseconds without a traditional H-pattern stick. Eight forward gears + reverse have been standard in the hybrid era (<a href="https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i" rel="noopener">F1.com regulation history context</a>; industry explainers).  </p>
+<p>The case is often carbon and/or titanium/aluminium; it also acts as a stressed member carrying rear suspension. Complete gearbox mass is typically tens of kilograms — historic carbon cases were reported far lighter than magnesium; treat modern total ≈ <strong>under ~40 kg</strong> as <strong>UNVERIFIED</strong> order-of-magnitude (<a href="https://www.autosport.com/f1/news/f1-2014-tech-gearboxes-under-pressure-5103000/5103000/" rel="noopener">historical technical press</a>).  </p>
+<p><strong>Fun fact:</strong> Ferrari’s 640 (1989) brought paddle-shift semi-auto gearboxes to F1; every car uses the idea today (<a href="https://www.theengineer.co.uk/content/in-depth/milestone-breakthroughs-from-75-years-of-f1-innovation" rel="noopener">The Engineer</a>).</p>
+
+<h3>Suspension (push-rod / pull-rod)</h3>
+
+<p>Connects wheels to the chassis so the car can absorb bumps while keeping the aero platform stable.  </p>
+<p><strong>Wishbones</strong> (A-shaped arms) locate each wheel. A <strong>push-rod</strong> is a rod that is compressed when the wheel rises, pushing on an inboard rocker that works the spring/damper. A <strong>pull-rod</strong> is tugged when the wheel rises, pulling a lower rocker. Neither is “always better” — teams pick based on aero packaging (<a href="https://www.formula1.com/en/latest/article/explainer-whats-the-difference-between-pull-rod-and-push-rod-suspension.1I3wL4LEL0nQZbKZbx1Dhz" rel="noopener">F1.com explainer</a>; <a href="https://www.the-race.com/formula-1/mark-hughes-mclarens-unconventional-2022-suspension-explained/" rel="noopener">The Race</a>).  </p>
+<p>Materials: carbon wishbones, steel/titanium rods, inboard torsion bars and dampers.  </p>
+<p><strong>Fun fact:</strong> In the early 1990s, <strong>active suspension</strong> (computers constantly adjusting ride height) made Williams almost unbeatable — then it was banned (<a href="https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i" rel="noopener">F1.com</a>).</p>
+
+<h3>Brakes (carbon-carbon, brake-by-wire)</h3>
+
+<p>F1 uses <strong>carbon-carbon</strong> discs and pads: carbon fibres in a carbon matrix. They work best when very hot (hundreds of °C) and are much lighter than road-car iron discs. A full corner assembly is only on the order of a few kilograms — <strong>UNVERIFIED</strong> exact 2026 masses (<a href="https://www.racecar-engineering.com/tech-explained/f1-2014-explained-brake-systems/" rel="noopener">Racecar Engineering / Brembo technical explainers</a>).  </p>
+<p><strong>Brake-by-wire</strong> on the rear: when the MGU-K harvests energy under braking, computers blend regenerative braking with the hydraulic rear brakes so the driver still feels a predictable pedal (<a href="https://www.autosport.com/f1/news/demystifying-formula-1-cars-brake-by-wire-systems/10754436/" rel="noopener">Autosport</a>). Front brakes remain primarily hydraulic.  </p>
+<p><strong>Fun fact:</strong> Carbon brakes can exceed <strong>1,000 °C</strong> — glowing discs in night races are real, not camera effects (<a href="https://www.brembo.com/en/motorsport/formula1/ventilation-holes" rel="noopener">Brembo</a>).</p>
+
+<h3>Tyres (slicks, intermediates, full wets)</h3>
+
+<p>Pirelli supplies every team. Dry tyres are <strong>slicks</strong> — smooth tread for maximum contact on dry asphalt. <strong>Intermediates</strong> (green sidewall marking) have shallow grooves for light rain. <strong>Full wets</strong> (blue) have deep grooves for heavy rain. Dry compounds are labelled Hard (white), Medium (yellow), Soft (red) from a C1–C5 range (<a href="https://press.pirelli.com/pirelli-reveals-2026-f1-tyres-a-fresh-logo-design-and-new-compounds/" rel="noopener">Pirelli</a>; <a href="https://www.mercedesamgf1.com/news/what-are-the-tyre-options-for-the-2026-italian-gp" rel="noopener">Mercedes race preview</a>).  </p>
+<p>2026 sizes: fronts 280×705 mm, rears 375×710 mm on 18-inch rims (see Part 1). Four tyres ≈ <strong>46 kg</strong> estimated in the FIA minimum-weight split (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).  </p>
+<p><strong>Fun fact:</strong> Slicks returned in 2009 after a decade of grooved dry tyres that had been introduced to slow the cars (<a href="https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i" rel="noopener">F1.com</a>).</p>
+
+<h3>Halo</h3>
+
+<p>A titanium “halo” bar above the cockpit that protects the driver’s head from debris and from other cars.  </p>
+<p>Structure: Grade 5 titanium (Ti-6Al-4V), about <strong>7 kg</strong>, covered in carbon fairings for aero. Mandatory in F1 since <strong>2018</strong>. Tests include large static loads (order of 125 kN in homologation tests described by manufacturers/FIA coverage) (<a href="https://www.racecar-engineering.com/tech-explained/tech-explained-formula-1-halo/" rel="noopener">Racecar Engineering</a>; <a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA safety legacy</a>).  </p>
+<p><strong>Fun fact:</strong> Drivers once disliked how it looked; it has since been credited with protecting drivers in several serious accidents (Spa 2018, Bahrain 2020, Silverstone 2022 among widely cited cases) (<a href="https://www.racecar-engineering.com/tech-explained/tech-explained-formula-1-halo/" rel="noopener">Racecar Engineering</a>; <a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>).</p>
+
+<h3>Steering wheel (main controls)</h3>
+
+<p>A detachable, roughly rectangular controller packed with buttons, rotary dials, paddles and a small screen. It is not like a road-car wheel — it is closer to an aircraft sidestick’s button layout.  </p>
+<p>Typical controls (labels vary by team; 2026 renames some hybrid modes):  </p>
+<ul><li><strong>Paddles:</strong> gear up/down; clutch paddle(s) for race starts.  </li><li><strong>Pit limiter:</strong> caps speed in the pit lane.  </li><li><strong>Radio / drink / differential / brake-balance</strong> dials.  </li><li><strong>ERS / Boost:</strong> deploy battery power (2026 “Boost”).  </li><li><strong>Overtake / Straight Mode related controls</strong> as mapped for 2026 (Straight Mode is often automatic in zones; Overtake Mode is proximity-based) (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com PU article</a>).  </li><li>Older wheels had a dedicated <strong>DRS</strong> button; that system is gone for 2026.  </li></ul>
+<p>Materials: carbon shell, magnesium/aluminium internals; mass roughly <strong>1–2 kg</strong> class — <strong>UNVERIFIED</strong> exact.  </p>
+<p><strong>Fun fact:</strong> Drivers can swap a spare wheel in seconds if theirs fails — the whole unit unplugs from a quick-release hub.</p>
+
+<h3>Suggested exploded-view separation order</h3>
+
+<p>Animate parts outward so nearer parts leave before deeper ones. Directions assume car nose = +Z, up = +Y, right = +X (Three.js common after axis remap).</p>
+
+<table>
+<thead><tr><th>Order</th><th>Part</th><th>Move direction</th><th>Distance hint</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Front &amp; rear wings</td><td>Front wing −Z; rear wing +Z; slight +Y</td><td>0.6–1.2 m</td><td>Clear aero “bookends” first</td></tr>
+<tr><td>2</td><td>Wheels + tyres</td><td>±X outward</td><td>0.8–1.2 m</td><td>Reveal brakes/uprights</td></tr>
+<tr><td>3</td><td>Brake discs/calipers</td><td>±X then slight −Y</td><td>0.3–0.5 m</td><td>Sit inside wheels</td></tr>
+<tr><td>4</td><td>Halo</td><td>+Y</td><td>0.5–0.8 m</td><td>Clears cockpit</td></tr>
+<tr><td>5</td><td>Steering wheel</td><td>+Y then −Z (toward camera if cockpit view)</td><td>0.4 m</td><td>Detaches from column</td></tr>
+<tr><td>6</td><td>Sidepods / engine cover</td><td>±X and +Y</td><td>0.5–1.0 m</td><td>Opens flanks</td></tr>
+<tr><td>7</td><td>Floor / diffuser</td><td>−Y</td><td>0.6–1.0 m</td><td>Big underbody plate</td></tr>
+<tr><td>8</td><td>Suspension (wishbones, rods)</td><td>±X / ±Z along natural axes</td><td>0.3–0.6 m</td><td>After wheels/floor</td></tr>
+<tr><td>9</td><td>Radiators / coolers</td><td>±X</td><td>0.4–0.7 m</td><td>Inside sidepod volume</td></tr>
+<tr><td>10</td><td>Power unit (ICE + turbo + MGU-K)</td><td>+Y then +Z slightly</td><td>0.5–0.8 m</td><td>Heart of the car</td></tr>
+<tr><td>11</td><td>Energy store + CE</td><td>−Y (if under seat/tank area) or +Y</td><td>0.3–0.6 m</td><td>Avoid overlapping PU</td></tr>
+<tr><td>12</td><td>Gearbox</td><td>+Z</td><td>0.4–0.7 m</td><td>Behind PU</td></tr>
+<tr><td>13</td><td>Survival cell (last)</td><td>stays / slight +Y</td><td>0–0.3 m</td><td>Core reference stays centred</td></tr>
+</tbody></table>
+
+<hr>
+
+<h2>Part 3 — History (1950–today)</h2>
+
+<h3>Timeline by era</h3>
+
+<table>
+<thead><tr><th>Era</th><th>Rule changes &amp; innovations</th><th>Notable cars (name + year)</th><th>Safety improvements</th><th>Typical car shape (simple)</th></tr></thead>
+<tbody>
+<tr><td><strong>1950–1957</strong> Front-engined classics</td><td>First World Championship (1950); varied engine formulae; exotic alcohol fuels early on</td><td>Alfa Romeo 158/159 (1950–51); Mercedes W196 (1954)</td><td>Very limited by modern standards; fatalities not rare</td><td>Long nose, engine ahead of driver, skinny tyres, no wings — like a cigar on wheels</td></tr>
+<tr><td><strong>1958–1965</strong> Mid-engine revolution</td><td>Mid/rear engine becomes dominant; 1.5 L formula (1961); first Constructors’ Cup (1958)</td><td>Cooper T51 (1959); Lotus 25 monocoque (1962)</td><td>Gradual chassis strength; still open and fragile</td><td>Engine behind driver; stubbier; still no wings</td></tr>
+<tr><td><strong>1966–1976</strong> Power, wings, DFV</td><td>3.0 L formula; Cosworth DFV (1967); wings arrive (1968); sponsorship liveries (1968)</td><td>Lotus 49 (1967–68); Lotus 72 (1970)</td><td>Fire risks drive fuel-cell rules; roll structures improve</td><td>Wedge shapes appear; high strut wings then lower body wings</td></tr>
+<tr><td><strong>1977–1982</strong> Ground effect + early turbos</td><td>Lotus ground-effect tunnels/skirts; Renault turbo (1977); sliding skirts battles</td><td>Lotus 78/79 (1977–78); Renault RS01 (1977)</td><td>Circuit and car rules scramble to contain cornering speeds</td><td>Sidepod skirts seal the floor; very low “wing cars”</td></tr>
+<tr><td><strong>1983–1988</strong> Flat bottoms &amp; turbo peak</td><td>Flat-bottom ban on tunnels (1983); turbo power peaks then boost/fuel limits; carbon tubs spread</td><td>Brabham BT52 (1983); McLaren MP4/4 (1988)</td><td>Stronger crash structures; feet behind front axle line (late 80s)</td><td>Arrow-shaped flat-bottom cars; huge rear wings; turbo plenums</td></tr>
+<tr><td><strong>1989–1993</strong> NA engines &amp; electronics</td><td>Turbos banned (1989); semi-auto gearboxes; active suspension / traction aids peak</td><td>Ferrari 640 (1989); Williams FW14B (1992)</td><td>Higher standards continue; electronics change driving</td><td>High-nose experiments; slick tyres; clean “tech” look</td></tr>
+<tr><td><strong>1994–1997</strong> Post-Imola reset</td><td>Driver aids banned (1994); capacity cut to 3.0 L (1995); major safety programme</td><td>Benetton B194 (1994); Williams FW16/18 era</td><td>After Imola 1994: tracks altered, plank, higher cockpits, later wheel tethers</td><td>Narrower performance; raised cockpit sides appear mid-decade</td></tr>
+<tr><td><strong>1998–2008</strong> Grooves, V10 peak, manufacturer boom</td><td>Narrow track + grooved tyres (1998); V10 then V8 (2006); tyre wars</td><td>McLaren MP4-13 (1998); Ferrari F2002/F2004</td><td>HANS (2003); stronger side structures</td><td>Grooved slick-looking tyres; dense aero bits grow through 2000s</td></tr>
+<tr><td><strong>2009–2013</strong> Aero strip + KERS</td><td>Cleaner bodywork (2009); optional KERS; DRS (2011); Pirelli sole tyre (2011)</td><td>Brawn BGP 001 (2009); Red Bull RB6–RB9</td><td>Visor Zylon; continued crash-test rises</td><td>Low wide front wing, high rear wing; fewer winglets (then creativity returns)</td></tr>
+<tr><td><strong>2014–2021</strong> First turbo-hybrid era</td><td>1.6 V6 turbo hybrid with MGU-K + MGU-H; fuel-flow limits</td><td>Mercedes W05–W11 era; Red Bull RB16B (2021)</td><td>Halo research → Halo 2018; biometric gloves</td><td>Loud hybrid whoosh; complex “bargeboard forests”; halo from 2018</td></tr>
+<tr><td><strong>2022–2025</strong> Ground effect returns</td><td>Venturi floors; 18-inch wheels; simplified over-body; cost cap</td><td>Red Bull RB18/RB19; later McLaren challengers</td><td>Stronger roll-hoop rules after 2022 Silverstone lessons</td><td>Chunky sidepods, covered wheels early on, low “skiff” floors</td></tr>
+<tr><td><strong>2026–</strong> Nimble hybrid + active aero</td><td>Smaller/lighter car; active front+rear wings; no MGU-H; ~50/50 hybrid; 100% advanced sustainable fuel; Overtake Mode</td><td>New-generation cars across 11 teams (incl. Cadillac)</td><td>Two-stage nose; roll hoop 16 g → 20 g; more intrusion protection</td><td>Shorter, narrower, moveable wings, flatter floor, no beam wing</td></tr>
+</tbody></table>
+
+<p>Sources woven above: <a href="https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i" rel="noopener">F1.com regulation changes</a>, <a href="https://www.theengineer.co.uk/content/in-depth/milestone-breakthroughs-from-75-years-of-f1-innovation" rel="noopener">The Engineer F1@75</a>, <a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA 2026</a>, <a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA Imola safety legacy</a>, <a href="https://lapledger.org/reference/eras" rel="noopener">Lap Ledger eras digest</a>.</p>
+
+<h3>Milestone highlights (for then-vs-now UI)</h3>
+
+<ol><li><strong>Mid-engine layout (late 1950s)</strong> — Engine moved behind the driver (Cooper). Better balance; every F1 car since follows this.  </li><li><strong>Wings (1968)</strong> — Lotus and others add inverted aerofoils for downforce.  </li><li><strong>Ground effect 1970s–early 1980s</strong> — Lotus 78/79 tunnels; banned via flat bottoms (1983).  </li><li><strong>Turbo era (1977–1988)</strong> — Renault pioneers; qualifying boost reaches extreme power.  </li><li><strong>Active suspension (early 1990s)</strong> — Williams FW14B; banned 1994.  </li><li><strong>Semi-auto gearboxes (1989 onward)</strong> — Ferrari 640 paddles.  </li><li><strong>Hybrid era (KERS 2009; full PU 2014–2025)</strong> — Electric boost becomes central.  </li><li><strong>Halo (2018)</strong> — Titanium head protection.  </li><li><strong>Ground effect return (2022–2025)</strong> then <strong>2026 reset</strong> — tunnels out; active aero and bigger electric share in.</li></ol>
+
+<h3>Safety incidents and rule changes (factual, respectful)</h3>
+
+<p>Racing is dangerous; the sport’s modern record is far safer because of lessons paid for by earlier generations. Summaries below avoid graphic detail.</p>
+
+<ul><li><strong>Imola 1994 (San Marino GP):</strong> Weekend tragedies involving Roland Ratzenberger and Ayrton Senna shocked the sport. The FIA accelerated circuit changes, car performance cuts (including floor plank), cockpit protection, and a long-term safety research culture (<a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>).  </li><li><strong>1990s–2000s incremental rules:</strong> Higher cockpit sides, wheel tethers (from 1999, later multi-tether), extractable seats, stricter helmets, <strong>HANS</strong> head-and-neck support mandatory in F1 from 2003 (<a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>).  </li><li><strong>Felipe Massa (Hungary 2009) and related debris risks:</strong> Led to stronger helmet/visor protection (Zylon panel era) (<a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>).  </li><li><strong>Jules Bianchi (Japan 2014):</strong> Ultimately fatal injuries after a wet-weather accident involving a recovery vehicle. The <strong>Virtual Safety Car</strong> (2015) and further cockpit intrusion work followed; closed-cockpit research contributed to the Halo path (<a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>).  </li><li><strong>Halo era incidents (2018 onward):</strong> Multiple crashes where the Halo was credited with reducing head injury risk (e.g. Spa 2018, Bahrain 2020, Silverstone 2022). Grosjean’s 2020 Bahrain barrier crash also triggered a broad safety review of barriers, clothing, and rescue (<a href="https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing" rel="noopener">FIA</a>; <a href="https://www.racecar-engineering.com/tech-explained/tech-explained-formula-1-halo/" rel="noopener">Racecar Engineering</a>).  </li><li><strong>2026:</strong> Stronger roll-hoop test (16 g → 20 g), two-stage front impact structure, increased side intrusion protection (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</li></ul>
+
+<hr>
+
+<h2>Part 4 — Engines &amp; power units</h2>
+
+<h3>Comparison across eras</h3>
+
+<table>
+<thead><tr><th>Years</th><th>Displacement</th><th>Cylinders &amp; layout</th><th>Turbo?</th><th>Max RPM</th><th>Approx power</th><th>Hybrid components</th><th>Fuel rules</th><th>Notable manufacturers</th><th>Sound character</th></tr></thead>
+<tbody>
+<tr><td>1950–1951</td><td>1.5 L s/c or 4.5 L NA</td><td>Straight-8 / V12 etc.</td><td>Supercharged option</td><td>~8,500</td><td>~350–425 hp</td><td>None</td><td>Exotic blends early</td><td>Alfa Romeo, Ferrari</td><td>Harsh, mechanical scream of early GP engines</td></tr>
+<tr><td>1954–1960</td><td>2.5 L NA</td><td>Various I4–V8</td><td>No (s/c abandoned)</td><td>~8,000</td><td>~250–290 hp</td><td>None</td><td>Pump-style fuels later mandated</td><td>Mercedes, Ferrari, Maserati</td><td>Lower, classic race growl</td></tr>
+<tr><td>1961–1965</td><td>1.5 L NA</td><td>V6/V8/flat-8…</td><td>No</td><td>up to ~12,000</td><td>~150–225 hp</td><td>None</td><td>Strict 1.5 L</td><td>Ferrari, Coventry Climax, BRM</td><td>High-rev buzz, less torque</td></tr>
+<tr><td>1966–1976</td><td>3.0 L NA (or 1.5 L FI)</td><td>V8/V12/flat-12</td><td>Rare early FI</td><td>~10–12.5k</td><td>~400–500 hp</td><td>None</td><td>—</td><td>Cosworth DFV, Ferrari, Ford</td><td>The classic DFV howl</td></tr>
+<tr><td>1977–1988 turbo peak</td><td>1.5 L turbo (or 3.0 NA)</td><td>I4/V6 turbos</td><td><strong>Yes</strong></td><td>~11–12k</td><td>Race ~600–900; quali <strong>1,000–1,400+ hp</strong> <strong>UNVERIFIED</strong> exact peaks vary by source</td><td>None</td><td>Fuel/boost limits late 80s</td><td>Renault, BMW, Honda, Ferrari, Porsche TAG</td><td>Spooling whoosh + sharp hit on boost</td></tr>
+<tr><td>1989–1994</td><td>3.5 L NA</td><td>V8/V10/V12</td><td>No</td><td>~12–14.5k</td><td>~600–780 hp</td><td>None</td><td>Turbos banned</td><td>Honda, Renault, Ferrari, Ford</td><td>Pure high-rev scream returns</td></tr>
+<tr><td>1995–2005</td><td>3.0 L NA</td><td><strong>V10</strong> (mandated from 2000)</td><td>No</td><td>up to ~19,000</td><td>~700–980 hp</td><td>None</td><td>Capacity cut after 1994</td><td>Ferrari, Mercedes Illmor, BMW, Renault, Cosworth</td><td>Ear-splitting V10 shriek (fan favourite)</td></tr>
+<tr><td>2006–2013</td><td>2.4 L NA</td><td><strong>V8</strong></td><td>No</td><td>20k → 19k → <strong>18,000</strong> limit</td><td>~720–780 hp</td><td>Optional <strong>KERS</strong> from 2009 (~60 kW)</td><td>Rev limits freeze development</td><td>Mercedes, Ferrari, Renault, Cosworth</td><td>Still loud, slightly deeper than V10</td></tr>
+<tr><td>2014–2025</td><td>1.6 L</td><td><strong>V6</strong> turbo hybrid</td><td><strong>Yes</strong></td><td>15,000 limit (often ~12k in race maps)</td><td>~850–1,050 hp combined</td><td><strong>MGU-K</strong> (120 kW) + <strong>MGU-H</strong> + ES + CE</td><td>Fuel mass/flow caps; rising sustainable blend % late in era</td><td>Mercedes, Ferrari, Renault/Alpine, Honda</td><td>Quieter turbo growl + electric whine</td></tr>
+<tr><td><strong>2026–</strong></td><td>1.6 L</td><td><strong>V6</strong> turbo hybrid</td><td><strong>Yes</strong></td><td>15,000 class (regulatory limit family)</td><td>Combined still <strong>700+ kW / ~1,000 hp</strong> class; ICE ≈400 kW + MGU-K 350 kW</td><td><strong>MGU-K only</strong> (no MGU-H); bigger ES deployment</td><td><strong>100% advanced sustainable fuel</strong>; energy-based fuel flow (~75 kg/h class)</td><td>Mercedes, Ferrari, Honda, Audi, Red Bull Ford</td><td>Similar turbo note; more electric presence when harvesting/boosting</td></tr>
+</tbody></table>
+
+<p>Era table synthesised from: <a href="https://lapledger.org/reference/eras" rel="noopener">Lap Ledger engine formulae</a>, <a href="https://www.theengineer.co.uk/content/in-depth/milestone-breakthroughs-from-75-years-of-f1-innovation" rel="noopener">The Engineer</a>, <a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA 2026</a>, <a href="https://www.mercedesamgf1.com/facts-and-stats-power-unit-regulation-changes" rel="noopener">Mercedes PU comparison</a>, <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com PU explain</a>. Qualifying turbo horsepower figures are historically contested — mark on-site as approximate.</p>
+
+<p><strong>UNVERIFIED — energy recovery per lap (2026):</strong> FIA launch material cited about <strong>8.5 MJ</strong> recuperable per lap; Mercedes comparison table lists <strong>9 MJ</strong> recovery vs 2 MJ previously (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://www.mercedesamgf1.com/facts-and-stats-power-unit-regulation-changes" rel="noopener">Mercedes</a>). Show both if animating a number.</p>
+
+<h3>2026 power unit manufacturers and teams supplied</h3>
+
+<p>Five PU manufacturers supply the 2026 grid (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>; <a href="https://www.motorsport.com/f1/news/every-f1-teams-engine-supplier-for-the-2026-season/10789027/" rel="noopener">Motorsport.com</a>; <a href="https://global.honda/en/F1/features/f1-explained/06/" rel="noopener">Honda</a>):</p>
+
+<table>
+<thead><tr><th>Power unit</th><th>Teams supplied (2026)</th></tr></thead>
+<tbody>
+<tr><td><strong>Mercedes</strong></td><td>Mercedes, McLaren, Williams, Alpine</td></tr>
+<tr><td><strong>Ferrari</strong></td><td>Ferrari, Haas, Cadillac</td></tr>
+<tr><td><strong>Honda</strong></td><td>Aston Martin</td></tr>
+<tr><td><strong>Audi</strong></td><td>Audi (works, ex-Sauber)</td></tr>
+<tr><td><strong>Red Bull Powertrains / Ford</strong></td><td>Red Bull, Racing Bulls</td></tr>
+</tbody></table>
+
+<p><strong>UNVERIFIED / historical note:</strong> When the FIA showcased regulations in June 2024, it listed <strong>six</strong> committed manufacturers including <strong>Alpine</strong> as a PU maker (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>). By the 2026 season, Alpine races as a <strong>Mercedes customer</strong> instead (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>). Prefer the season supply table for the website; mention Alpine’s abandoned works PU only as history.</p>
+
+<p>Cadillac uses Ferrari PUs initially; GM’s own PU is planned later (Honda/Motorsport reporting points to a post-2026 introduction — confirm before stating a year on-site) (<a href="https://global.honda/en/F1/features/f1-explained/06/" rel="noopener">Honda</a>; <a href="https://www.motorsport.com/f1/news/every-f1-teams-engine-supplier-for-the-2026-season/10789027/" rel="noopener">Motorsport.com</a>).</p>
+
+<h3>Energy recovery — plain-language steps (for an animated diagram)</h3>
+
+<p><strong>What “hybrid” means here:</strong> The car has a petrol engine <strong>and</strong> an electric motor that can charge a battery and also push the car.</p>
+
+<ol><li><strong>Driver brakes or lifts.</strong> The car must lose speed; that energy used to become heat in the brakes.  </li><li><strong>MGU-K acts as a generator.</strong> Instead of wasting all that energy, the MGU-K turns motion into electricity (regenerative braking), while brake-by-wire keeps the pedal feel consistent.  </li><li><strong>Electricity flows into the energy store.</strong> The battery (energy store) fills up within rules limits for the lap.  </li><li><strong>Extra harvesting tricks (2026).</strong> Systems can also harvest on part-throttle, when the driver lifts early (“lift and coast”), or via limited “super clipping” near the end of a straight (<a href="https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP" rel="noopener">F1.com</a>).  </li><li><strong>Driver (or map) deploys Boost.</strong> The MGU-K switches to motor mode and adds up to <strong>350 kW</strong> at the drivetrain — like a temporary second engine (<a href="https://www.mercedesamgf1.com/facts-and-stats-power-unit-regulation-changes" rel="noopener">Mercedes</a>).  </li><li><strong>Overtake Mode (if eligible).</strong> When close enough at the detection point, the following car may get <strong>+0.5 MJ</strong> and a stronger deployment profile next lap — the sporting replacement for old DRS assistance (<a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>).  </li><li><strong>What changed vs 2014–2025.</strong> The old <strong>MGU-H</strong> also made electricity from turbo/exhaust heat. It is gone; almost all electrical strategy now centres on the bigger MGU-K and battery (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>).</li></ol>
+
+<p><strong>Everyday comparison:</strong> Like a city bus that charges when slowing for a stop, then uses that charge to pull away — except an F1 MGU-K is many times more powerful and the strategy is fought over every corner.</p>
+
+<h3>2026 fuel in one paragraph</h3>
+
+<p>Cars must run <strong>advanced sustainable fuel</strong>: molecules from sources such as non-food biomass, municipal waste, or sustainable carbon capture — certified so no <em>new fossil</em> carbon enters the fuel. It is designed as a <strong>drop-in</strong> petrol substitute (works in a petrol engine without a special new combustion architecture) (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond" rel="noopener">FIA</a>; <a href="https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd" rel="noopener">F1.com</a>).</p>
+
+<hr>
+
+<h2>Full source list</h2>
+
+<p>Primary / preferred:</p>
+
+<ol><li>https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond  </li><li>https://www.fia.com/news/f1s-new-era-everything-you-need-know-about-how-fia-making-formula-1-more-competitive-more  </li><li>https://api.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_c_technical_-_iss_20_-_2026-08-05.pdf  </li><li>https://www.fia.com/sites/default/files/fia_2026_formula_1_technical_regulations_issue_8_-_2024-06-24.pdf  </li><li>https://www.fia.com/news/legacy-safety-how-fia-responded-tragedy-imola-1994-and-launched-drive-safer-racing  </li><li>https://www.formula1.com/en/latest/article/from-smaller-cars-to-a-bigger-budget-cap-12-rule-changes-you-need-to-know-about-in.56uUTFhB0z5j3iZfhC0rGP  </li><li>https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-aerodynamics.7IAt0auc32UkCEFE5ypkTB  </li><li>https://www.formula1.com/en/latest/article/2026-regulations-explained-all-you-need-to-know-about-f1s-new-power-units.14jfv7a36905uDJDdNyfQd  </li><li>https://www.formula1.com/en/latest/article/the-key-regulation-changes-in-f1-history-and-the-teams-that-nailed-them.2iq8c5E6S1HOffT5PBLl6i  </li><li>https://www.formula1.com/en/latest/article/explainer-whats-the-difference-between-pull-rod-and-push-rod-suspension.1I3wL4LEL0nQZbKZbx1Dhz  </li><li>https://press.pirelli.com/pirelli-reveals-2026-f1-tyres-a-fresh-logo-design-and-new-compounds/  </li><li>https://www.mercedesamgf1.com/facts-and-stats-power-unit-regulation-changes  </li><li>https://www.mercedesamgf1.com/news/what-are-the-tyre-options-for-the-2026-italian-gp  </li><li>https://www.motorsport.com/f1/news/every-f1-teams-engine-supplier-for-the-2026-season/10789027/  </li><li>https://global.honda/en/F1/features/f1-explained/06/  </li><li>https://www.the-race.com/formula-1/mark-hughes-mclarens-unconventional-2022-suspension-explained/  </li><li>https://www.racecar-engineering.com/tech-explained/tech-explained-formula-1-halo/  </li><li>https://www.racecar-engineering.com/tech-explained/f1-2014-explained-brake-systems/  </li><li>https://www.autosport.com/f1/news/demystifying-formula-1-cars-brake-by-wire-systems/10754436/  </li><li>https://www.brembo.com/en/motorsport/formula1/ventilation-holes  </li><li>https://www.theengineer.co.uk/content/in-depth/milestone-breakthroughs-from-75-years-of-f1-innovation  </li><li>https://lapledger.org/reference/eras  </li><li>https://grab3d.com/models/vehicles/race-car/  </li><li>https://grab3d.com/dl/race-car/race-car.glb  </li><li>https://sketchfab.com/3d-models/generic-formula-car-better-version-46e0805e009a42f297405d943d6ce22e  </li><li>https://sketchfab.com/3d-models/formula-f211-cada3b67c43744adadee21adcabc4fc4  </li><li>https://creativecommons.org/publicdomain/zero/1.0/  </li><li>https://creativecommons.org/licenses/by/4.0/</li></ol>
+
+<p>Link resolution: URLs above returned HTTP 200 when checked on 14 Oct 2026 MYT (Grab3D GLB included). Do not cite 3dassets.dev until it serves reliably again.</p>
+
+<hr>
+
+<h2>Gaps &amp; open questions</h2>
+
+<ol><li><strong>Overall length</strong> — No single FIA maximum found; need team-by-team published lengths or a modelled envelope from Appendix reference volumes.  </li><li><strong>Race ride height</strong> — Only legality/plank framework is public; live ride heights are setup secrets.  </li><li><strong>True exploded 2026 GLB</strong> — No free CC0/CC-BY component-separated accurate 2026 car found; plan custom modelling.  </li><li><strong>Component masses</strong> — Monocoque, gearbox, battery, wing assemblies: many public numbers are old or unofficial.  </li><li><strong>Energy recovery MJ</strong> — FIA 8.5 MJ vs Mercedes 9 MJ messaging; confirm from latest Sporting/Technical issue before locking UI copy.  </li><li><strong>Rear tyre diameter delta</strong> — Pirelli (−10 mm) vs one F1.com article (−30 mm); prefer Pirelli absolute 710 mm.  </li><li><strong>GM/Cadillac own PU year</strong> — Reported as after initial Ferrari supply; verify exact season before stating.  </li><li><strong>Alpine PU history</strong> — 2024 FIA “six manufacturers” list vs 2026 Mercedes customer reality.  </li><li><strong>Steering-wheel 2026 labels</strong> — Team-specific; photograph a show car or official onboard for accurate button map.  </li><li><strong>Sound samples</strong> — No licensed audio captured in this brief; needed for Part 4 “sound character” media.  </li><li><strong>Poly count of Sketchfab downloads after Draco/glTF export</strong> — API face counts are guides; re-measure in Blender after download.  </li><li><strong>Trademark review</strong> — Even generic models should avoid Ferrari/Honda/etc. badge shapes if the site is commercial.</li></ol>
+
+<hr>
+
+<p><em>End of research brief. Prepared for Three.js educational use; not an official FIA document.</em></p>
+</body>
+</html>
