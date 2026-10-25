@@ -1,0 +1,1606 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>F1 Features Research</title>
+<style>
+:root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; line-height: 1.5; color: #122; }
+body { max-width: 52rem; margin: 2rem auto; padding: 0 1.25rem 4rem; }
+h1,h2,h3 { line-height: 1.25; }
+h1 { font-size: 1.75rem; }
+h2 { margin-top: 2.2rem; border-bottom: 2px solid #e10600; padding-bottom: .25rem; }
+h3 { margin-top: 1.5rem; }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; margin: 1rem 0; }
+th, td { border: 1px solid #ccd; padding: .45rem .55rem; vertical-align: top; }
+th { background: #f4f6f8; text-align: left; }
+code { background: #f0f2f5; padding: .1rem .3rem; border-radius: 3px; }
+a { color: #0b57d0; }
+hr { border: none; border-top: 1px solid #ddd; margin: 2rem 0; }
+strong { font-weight: 650; }
+.tw{overflow-x:auto}
+pre{background:#f0f2f5;padding:.8rem;overflow-x:auto;border-radius:4px}
+pre code{padding:0;background:none}
+</style>
+</head><body>
+<h1>F1 Features Research: Tracks, Teams, Comparisons, Pit Stops and Eras</h1>
+<p><strong>Purpose:</strong> Content and data for five interactive features on a Three.js website about Formula 1 (F1) cars, written for people who have never watched a race.
+<strong>Research date:</strong> 15 October 2026 (Asia/Kuala_Lumpur, MYT). The 2026 season had run 17 of its 23 rounds on this date.
+<strong>Companion files:</strong> <a href="f1_research.md">f1_research.md</a> (car, parts, history, engines) and <a href="f1_era_models.md">f1_era_models.md</a> (free 3D models by era). Lap data for the animation is in <a href="f1_lap_keyframes.json">f1_lap_keyframes.json</a>.
+<strong>Units:</strong> Metric first, imperial in brackets.
+<strong>Rules used here:</strong> every number has a source link next to it. When good sources disagree, the figure is marked <strong>UNVERIFIED</strong> and each value is listed with its source. Numbers we worked out ourselves (from telemetry or simple physics) are labelled <strong>our calculation</strong> so you can tell them apart from published figures.</p>
+<hr />
+<h2>A few words you will meet everywhere</h2>
+<ul>
+<li><strong>Grand Prix (GP):</strong> French for "big prize". It means one race weekend in one place.</li>
+<li><strong>Circuit / track:</strong> the closed road the cars race on. Some are purpose-built; some are city streets closed for the weekend (a <strong>street circuit</strong>).</li>
+<li><strong>Lap:</strong> one full trip around the circuit.</li>
+<li><strong>Corner / turn (T1, T2...):</strong> each bend has an official number, counted from the start line. "T4" means Turn 4.</li>
+<li><strong>Apex:</strong> the inside point of a corner, where the car is closest to the inner edge and usually at its slowest.</li>
+<li><strong>Braking point:</strong> the spot where the driver first hits the brake pedal before a corner.</li>
+<li><strong>Gear:</strong> F1 cars have 8 forward gears. 1st is for the slowest hairpins, 8th for top speed.</li>
+<li><strong>Downforce:</strong> air pushing the car down onto the road, like an upside-down aeroplane wing. More downforce means more grip in corners.</li>
+<li><strong>Drag:</strong> air resistance that holds the car back on straights, like wind pushing on your hand out of a car window.</li>
+<li><strong>Active aero (2026):</strong> the front and rear wings can change angle while driving. <strong>Corner Mode</strong> = wings closed for downforce. <strong>Straight Mode</strong> = wings opened flat to cut drag on straights.</li>
+<li><strong>Overtake Mode (2026):</strong> an extra burst of electric energy for a driver who is within 1 second of the car ahead at a set point on the lap. It replaced the old DRS overtaking flap.</li>
+<li><strong>g (g-force):</strong> a measure of push on your body. 1 g is your normal weight. 4 g feels like four times your weight pressing on you.</li>
+<li><strong>Telemetry:</strong> live data the car sends back: speed, gear, throttle, brake and more.</li>
+<li><strong>Pole position:</strong> first place on the starting grid, earned by being fastest in qualifying (the timed session before the race).</li>
+</ul>
+<hr />
+<h2>1. TRACKS</h2>
+<h3>1.1 The 2026 calendar</h3>
+<p>The 2026 World Championship has <strong>23 rounds</strong>. Two April races (Bahrain and Saudi Arabia) were cancelled because of the war in the Middle East (<a href="https://www.theguardian.com/sport/2026/mar/14/formula-one-cancel-bahrain-saudi-arabia-grand-prix-war-middle-east">The Guardian</a>). The Bahrain Grand Prix was later moved to Malaysia's Sepang circuit for 2 to 4 October, bringing the calendar back to 23 races (<a href="https://www.fia.com/news/fia-and-fom-confirm-malaysia-will-join-2026-calendar-host-venue-bahrain-grand-prix">FIA</a>; <a href="https://www.formula1.com/en/latest/article/formula-1-and-fia-confirm-malaysia-will-join-2026-calendar-as-host-venue-for-the-bahrain-grand-prix.6lL7vjFEM2VVynRHvg1TCf">Formula1.com</a>). Madrid's new <strong>Madring</strong> street-style circuit hosts the Spanish GP. Barcelona keeps a separate "Barcelona-Catalunya GP" (<a href="https://www.formula1.com/en/racing/2026">Formula1.com calendar</a>).</p>
+<p>How to read the table:
+- <strong>Length, laps, lap record</strong> come from each race's Formula1.com page (link in the last column). The <strong>lap record</strong> is the fastest lap ever set <em>during a race</em> on today's layout, not the faster one-lap qualifying times.
+- <strong>Corners</strong> is the number of numbered turns in the official F1 timing data, read with the <a href="https://docs.fastf1.dev/">FastF1</a> library (<code>Session.get_circuit_info()</code>, which uses the MultiViewer circuit API). For the six rounds not yet raced in 2026 we used each venue's 2025 data. We cross-checked the counts that Formula1.com states in text: Miami 19 (<a href="https://www.formula1.com/en/racing/2026/miami">F1.com</a>), Las Vegas 17 (<a href="https://www.formula1.com/en/racing/2026/las-vegas">F1.com</a>), Madring 22 (<a href="https://www.formula1.com/en/racing/2026/spain">F1.com</a>) and Sepang 15 (<a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-sepang-international-circuit.2KTLvyxBXmwVftSJxmYeZ2">F1.com circuit guide</a>). The Hungaroring has 14 numbered turns, and FastF1 also lists two extra lettered markers there. FastF1 could not load circuit info for Madrid or Sepang, so those two counts come from Formula1.com.
+- Rounds 1 to 17 had been raced by 15 Oct 2026. Rounds 18 to 23 (Austin to Abu Dhabi) are still to come.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Rd</th>
+<th>Grand Prix</th>
+<th>Circuit</th>
+<th>Country</th>
+<th>Length km (mi)</th>
+<th>Laps</th>
+<th>Corners</th>
+<th>Lap record (holder, year)</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Australian GP</td>
+<td>Albert Park Circuit, Melbourne</td>
+<td>Australia</td>
+<td>5.278 (3.28 mi)</td>
+<td>58</td>
+<td>14</td>
+<td>1:19.813 (Charles Leclerc, 2024)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/australia">F1.com</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Chinese GP</td>
+<td>Shanghai International Circuit</td>
+<td>China</td>
+<td>5.451 (3.39 mi)</td>
+<td>56</td>
+<td>16</td>
+<td>1:32.238 (Michael Schumacher, 2004)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/china">F1.com</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Japanese GP</td>
+<td>Suzuka Circuit</td>
+<td>Japan</td>
+<td>5.807 (3.61 mi)</td>
+<td>53</td>
+<td>18</td>
+<td>1:30.965 (Kimi Antonelli, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/japan">F1.com</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Miami GP</td>
+<td>Miami International Autodrome</td>
+<td>USA</td>
+<td>5.412 (3.36 mi)</td>
+<td>57</td>
+<td>19</td>
+<td>1:29.708 (Max Verstappen, 2023)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/miami">F1.com</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Canadian GP</td>
+<td>Circuit Gilles-Villeneuve, Montréal</td>
+<td>Canada</td>
+<td>4.361 (2.71 mi)</td>
+<td>70</td>
+<td>14</td>
+<td>1:13.078 (Valtteri Bottas, 2019)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/canada">F1.com</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Monaco GP</td>
+<td>Circuit de Monaco</td>
+<td>Monaco</td>
+<td>3.337 (2.07 mi)</td>
+<td>78</td>
+<td>19</td>
+<td>1:12.909 (Lewis Hamilton, 2021)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/monaco">F1.com</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Barcelona-Catalunya GP</td>
+<td>Circuit de Barcelona-Catalunya</td>
+<td>Spain</td>
+<td>4.657 (2.89 mi)</td>
+<td>66</td>
+<td>14</td>
+<td>1:15.743 (Oscar Piastri, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/barcelona-catalunya">F1.com</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Austrian GP</td>
+<td>Red Bull Ring, Spielberg</td>
+<td>Austria</td>
+<td>4.326 (2.69 mi)</td>
+<td>71</td>
+<td>10</td>
+<td>1:07.924 (Oscar Piastri, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/austria">F1.com</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>British GP</td>
+<td>Silverstone Circuit</td>
+<td>United Kingdom</td>
+<td>5.891 (3.66 mi)</td>
+<td>52</td>
+<td>18</td>
+<td>1:27.097 (Max Verstappen, 2020)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/great-britain">F1.com</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Belgian GP</td>
+<td>Circuit de Spa-Francorchamps</td>
+<td>Belgium</td>
+<td>7.004 (4.35 mi)</td>
+<td>44</td>
+<td>19</td>
+<td>1:44.701 (Sergio Pérez, 2024)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/belgium">F1.com</a></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Hungarian GP</td>
+<td>Hungaroring, Budapest</td>
+<td>Hungary</td>
+<td>4.381 (2.72 mi)</td>
+<td>70</td>
+<td>14</td>
+<td>1:16.627 (Lewis Hamilton, 2020)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/hungary">F1.com</a></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Dutch GP</td>
+<td>Circuit Zandvoort</td>
+<td>Netherlands</td>
+<td>4.259 (2.65 mi)</td>
+<td>72</td>
+<td>14</td>
+<td>1:11.097 (Lewis Hamilton, 2021)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/netherlands">F1.com</a></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Italian GP</td>
+<td>Autodromo Nazionale Monza</td>
+<td>Italy</td>
+<td>5.793 (3.60 mi)</td>
+<td>53</td>
+<td>11</td>
+<td>1:20.901 (Lando Norris, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/italy">F1.com</a></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Spanish GP</td>
+<td>Madring, Madrid (new 2026)</td>
+<td>Spain</td>
+<td>5.414 (3.36 mi)</td>
+<td>57</td>
+<td>22</td>
+<td>1:35.587 (George Russell, 2026)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/spain">F1.com</a></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Azerbaijan GP</td>
+<td>Baku City Circuit</td>
+<td>Azerbaijan</td>
+<td>6.003 (3.73 mi)</td>
+<td>51</td>
+<td>20</td>
+<td>1:43.009 (Charles Leclerc, 2019)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/azerbaijan">F1.com</a></td>
+</tr>
+<tr>
+<td>16</td>
+<td>Bahrain GP <em>held in Malaysia</em></td>
+<td>Sepang International Circuit</td>
+<td>Malaysia</td>
+<td>5.543 (3.44 mi)</td>
+<td>56</td>
+<td>15</td>
+<td>1:34.080 (Sebastian Vettel, 2017)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/bahrain">F1.com</a></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Singapore GP</td>
+<td>Marina Bay Street Circuit</td>
+<td>Singapore</td>
+<td>4.927 (3.06 mi)</td>
+<td>62</td>
+<td>19</td>
+<td>1:33.808 (Lewis Hamilton, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/singapore">F1.com</a></td>
+</tr>
+<tr>
+<td>18</td>
+<td>United States GP</td>
+<td>Circuit of the Americas, Austin</td>
+<td>USA</td>
+<td>5.513 (3.43 mi)</td>
+<td>56</td>
+<td>20</td>
+<td>1:36.169 (Charles Leclerc, 2019)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/united-states">F1.com</a></td>
+</tr>
+<tr>
+<td>19</td>
+<td>Mexico City GP</td>
+<td>Autódromo Hermanos Rodríguez</td>
+<td>Mexico</td>
+<td>4.304 (2.67 mi)</td>
+<td>71</td>
+<td>17</td>
+<td>1:17.774 (Valtteri Bottas, 2021)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/mexico">F1.com</a></td>
+</tr>
+<tr>
+<td>20</td>
+<td>São Paulo GP</td>
+<td>Autódromo José Carlos Pace (Interlagos)</td>
+<td>Brazil</td>
+<td>4.309 (2.68 mi)</td>
+<td>71</td>
+<td>15</td>
+<td>1:10.540 (Valtteri Bottas, 2018)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/brazil">F1.com</a></td>
+</tr>
+<tr>
+<td>21</td>
+<td>Las Vegas GP</td>
+<td>Las Vegas Strip Circuit</td>
+<td>USA</td>
+<td>6.201 (3.85 mi)</td>
+<td>50</td>
+<td>17</td>
+<td>1:33.365 (Max Verstappen, 2025)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/las-vegas">F1.com</a></td>
+</tr>
+<tr>
+<td>22</td>
+<td>Qatar GP</td>
+<td>Lusail International Circuit</td>
+<td>Qatar</td>
+<td>5.419 (3.37 mi)</td>
+<td>57</td>
+<td>16</td>
+<td>1:22.384 (Lando Norris, 2024)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/qatar">F1.com</a></td>
+</tr>
+<tr>
+<td>23</td>
+<td>Abu Dhabi GP</td>
+<td>Yas Marina Circuit</td>
+<td>United Arab Emirates</td>
+<td>5.281 (3.28 mi)</td>
+<td>58</td>
+<td>16</td>
+<td>1:25.637 (Kevin Magnussen, 2024)</td>
+<td><a href="https://www.formula1.com/en/racing/2026/united-arab-emirates">F1.com</a></td>
+</tr>
+</tbody>
+</table></div>
+<p>Notes on the table:
+- <strong>Sepang's lap record</strong> (Vettel 2017) is from the old Malaysian GP. Formula1.com still shows it on the 2026 "Bahrain GP in Malaysia" page (<a href="https://www.formula1.com/en/racing/2026/bahrain">F1.com</a>).
+- <strong>Monaco race vs qualifying:</strong> the race lap record is 1:12.909 (Hamilton, 2021), but pole in 2026 was faster, a 1:12.051 by Kimi Antonelli, because qualifying laps use fresh tyres and little fuel (<a href="https://www.formula1.com/en/racing/2026/monaco">F1.com Monaco</a>; 2026 qualifying times from F1 live timing via <a href="https://docs.fastf1.dev/">FastF1</a>).
+- <strong>Monaco race distance</strong> is only 260.286 km (161.7 mi). Every other race is about 305 to 310 km (190 to 193 mi) (<a href="https://www.formula1.com/en/racing/2026/monaco">F1.com</a>).
+- <strong>Spa is the longest lap</strong> at 7.004 km (4.35 mi), and <strong>Monaco the shortest</strong> at 3.337 km (2.07 mi) (<a href="https://www.formula1.com/en/racing/2026/belgium">F1.com Belgium</a>; <a href="https://www.formula1.com/en/racing/2026/monaco">F1.com Monaco</a>).</p>
+<h3>1.2 Showcase circuits for the lap animation</h3>
+<p>We picked three tracks that feel very different, so visitors can compare them:</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Circuit</th>
+<th>Personality</th>
+<th>Everyday comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Monza</strong> (Italy)</td>
+<td>Fastest track: long straights cut by tight chicanes. The cars spend most of the lap at full throttle.</td>
+<td>A motorway with three speed bumps</td>
+</tr>
+<tr>
+<td><strong>Monaco</strong></td>
+<td>Slowest track: narrow city streets lined by metal barriers, with the slowest hairpin of the year. No Straight Mode at all in 2026.</td>
+<td>Racing through a hillside old town</td>
+</tr>
+<tr>
+<td><strong>Silverstone</strong> (UK)</td>
+<td>Fast, flowing bends taken flat out at close to 300 km/h (186 mph). Few heavy braking zones.</td>
+<td>A roller-coaster with long sweeping curves</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Where the numbers come from (read this first).</strong> The corner speeds, gears and braking points below are <strong>our calculation</strong> from one 2026 qualifying lap per circuit. The data is F1 live timing loaded with FastF1 3.8.3 (<a href="https://docs.fastf1.dev/">FastF1 docs</a>). Car data arrives about 4 times a second, so at 300 km/h (186 mph) there can be 20 to 25 m (65 to 80 ft) between samples. Read speeds as "about" (we rounded them to the nearest 5 km/h) and distances as plus or minus 25 m. Distances are metres from the start/finish timing line <em>along that lap</em>. The measured lap is about 1% shorter or longer than the official length, because cars cut corners and the GPS-style distance drifts a little. For animation, divide by the measured lap length to get a 0 to 1 position along the path (the <code>u</code> value in <a href="f1_lap_keyframes.json">f1_lap_keyframes.json</a>).</p>
+<p><strong>Straight Mode zones</strong> come from the FIA's official 2026 circuit maps for each event (links per circuit). The FIA map gives where each zone <strong>opens</strong> (for example "70 m after T3"). The wings <strong>close</strong> automatically when the driver brakes or lifts off the throttle, and some zones also have a fixed "turn-off" distance (<a href="https://www.formula1.com/en/latest/article/explained-the-new-key-terms-for-formula-1s-new-for-2026-rules.3T5BU6TC9quGcIpGzoWkY0">F1.com key terms</a>). In practice that is where our telemetry shows the braking point. In <strong>low-grip conditions</strong> (for example rain), the Race Director can allow only <strong>partial</strong> activation: the front wing opens but the rear wing stays in Corner Mode, and the zones start later (<a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">FIA Sporting Regulations B7.1.1d and B7.1.2b, Issue 09</a>).</p>
+<p><strong>Super clipping, a 2026 quirk worth animating.</strong> On long straights the 2026 car can run short of battery energy. The power unit then starts recharging even at full throttle, and the car <strong>slows slightly before the braking zone</strong> (<a href="https://www.formula1.com/en/latest/article/explained-the-new-key-terms-for-formula-1s-new-for-2026-rules.3T5BU6TC9quGcIpGzoWkY0">F1.com key terms</a>). You can see it in the data. At Monza, Verstappen peaked at 334 km/h (208 mph) about 350 m after the line, then dropped to about 326 km/h (203 mph) by the Turn 1 braking point while still at full throttle (<strong>our calculation</strong>, FastF1).</p>
+<h4>Monza: Autodromo Nazionale Monza ("Temple of Speed")</h4>
+<ul>
+<li>Official length 5.793 km (3.60 mi), 53 laps, 11 turns (<a href="https://www.formula1.com/en/racing/2026/italy">F1.com</a>).</li>
+<li>2026 pole: Pierre Gasly (Alpine) 1:21.786. Gasly's lap has a short gap in its data around the Roggia chicane, so the table uses <strong>Max Verstappen's clean 1:22.070</strong> (Q3, 6th). Highest Q3 speed in the data: <strong>342 km/h (213 mph)</strong> on Gasly's pole lap (F1 live timing via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>).</li>
+<li>Brakes: Brembo rates Monza 3 out of 5 for braking difficulty, with 5 braking zones per lap (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monza-2026">Brembo Monza 2026</a>).</li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Turn</th>
+<th>Common name</th>
+<th>Entry speed km/h (mph), gear</th>
+<th>Brake point (m from line)</th>
+<th>Apex speed km/h (mph), gear</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1-T2</td>
+<td>Variante del Rettifilo (first chicane)</td>
+<td>325 (202), 8th</td>
+<td>~784</td>
+<td>75-80 (47-50), 1st</td>
+<td>Hardest stop of the lap: from about 320 to under 90 km/h</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Curva Biassono / Curva Grande</td>
+<td>flat out</td>
+<td>none</td>
+<td>~300 (186), 8th</td>
+<td>Long right-hander taken without lifting</td>
+</tr>
+<tr>
+<td>T4-T5</td>
+<td>Variante della Roggia</td>
+<td>300 (186), 8th</td>
+<td>~2,009</td>
+<td>~110 (68), 3rd</td>
+<td>Second chicane</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>Lesmo 1</td>
+<td>235 (146), 5th</td>
+<td>~2,430</td>
+<td>~195 (121), 5th</td>
+<td>Short brake, fast right</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>Lesmo 2</td>
+<td>240 (149), 6th</td>
+<td>~2,772</td>
+<td>~185 (115), 5th</td>
+<td>Exit leads to the run under the old banking</td>
+</tr>
+<tr>
+<td>T8-T9</td>
+<td>Variante Ascari</td>
+<td>310 (193), 8th</td>
+<td>~3,823</td>
+<td>~185-195 (115-121), 5th</td>
+<td>Fast left-right-left chicane</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>Ascari exit</td>
+<td>flat out</td>
+<td>none</td>
+<td>~235 (146), 6th</td>
+<td>Back on power</td>
+</tr>
+<tr>
+<td>T11</td>
+<td>Curva Alboreto (Parabolica)</td>
+<td>310 (193), 8th</td>
+<td>~5,035</td>
+<td>~205 (127), 5th</td>
+<td>Long right curve onto the main straight</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source for every speed, gear and distance above: F1 live timing, 2026 Italian GP qualifying, Verstappen Q3 lap, via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>. Corner numbers: FastF1 circuit info, matching the <a href="https://www.fia.com/system/files/decision-document/2026_italian_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">FIA 2026 Italian GP circuit map</a>. Corner names are the commonly used ones.</p>
+<p>Top speeds on the straights (same lap, <strong>our calculation</strong>): main straight <strong>334 km/h (208 mph)</strong>; Curva Grande to Roggia <strong>307 km/h (191 mph)</strong>; Lesmo 2 to Ascari <strong>319 km/h (198 mph)</strong>; Ascari to Parabolica <strong>321 km/h (199 mph)</strong>.</p>
+<p>Brembo's simulation of the hardest stop, Turn 1: <strong>318 to 87 km/h (198 to 54 mph) in 3.22 s over 153 m (502 ft), at 3.8 g</strong> (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monza-2026">Brembo Monza 2026</a>). Brembo also says the 2026 cars brake more gently than the 2025 cars did. At the Roggia chicane, peak deceleration drops from 4.5 g to 3.7 g, and the braking distance grows from 107 m to 121 m (351 to 397 ft) (same source).</p>
+<p><strong>Straight Mode at Monza: 4 zones</strong> (<a href="https://www.fia.com/system/files/decision-document/2026_italian_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">FIA 2026 Italian GP circuit map</a>; <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-autodromo-nazionale-monza.51PKqBRlxNs0fzLWQzsnd0">F1.com Monza guide</a>):</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Wings open (normal grip)</th>
+<th>Low-grip start</th>
+<th>Approx. open → close on the Verstappen lap (m)</th>
+<th>Closes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>30 m after T11 / pit exit</td>
+<td>100 m after T11</td>
+<td>~5,220 → ~784 (crosses the finish line)</td>
+<td>Braking for T1</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>70 m after T3</td>
+<td>110 m after T3</td>
+<td>~1,533 → ~2,009</td>
+<td>Braking for T4</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>170 m after T7</td>
+<td>230 m after T7</td>
+<td>~3,010 → ~3,823</td>
+<td>Braking for T8</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>130 m after T10</td>
+<td>180 m after T10</td>
+<td>~4,225 → ~5,035</td>
+<td>Braking for T11</td>
+</tr>
+</tbody>
+</table></div>
+<p>"Open" positions come from the FIA map. The lap-distance positions are <strong>our calculation</strong>: the FIA offset added to the FastF1 corner position on this lap. <strong>Overtake Mode:</strong> the detection line is just before Turn 11 and the activation line is on the exit of Turn 11, onto the main straight (<a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-autodromo-nazionale-monza.51PKqBRlxNs0fzLWQzsnd0">F1.com Monza guide</a>).</p>
+<h4>Monaco: Circuit de Monaco</h4>
+<ul>
+<li>Official length 3.337 km (2.07 mi), 78 laps, 19 turns (<a href="https://www.formula1.com/en/racing/2026/monaco">F1.com</a>).</li>
+<li>2026 pole: Kimi Antonelli (Mercedes) 1:12.051. That lap is used below. Top speed on the lap: <strong>289 km/h (180 mph)</strong> at the end of the tunnel (F1 live timing via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>).</li>
+<li><strong>No Straight Mode zones at all.</strong> The wings stay in Corner Mode all weekend. The FIA's rules say a zone must last more than 3 seconds and sit where the tyres are not at their grip limit, and Monaco has no section that meets both (<a href="https://www.formula1.com/en/latest/article/explained-why-active-aero-will-not-be-used-at-the-monaco-grand-prix.4nLtpjM9ZTUbPBQLmeAbj4">F1.com</a>; <a href="https://www.the-race.com/formula-1/why-f1-cars-wont-run-active-aero-in-monaco/">The Race</a>). The FIA also capped electric power at Monaco: the full 350 kW only up to 200 km/h (124 mph), falling to about 100 kW at 270 km/h (168 mph) and zero at 300 km/h (186 mph) (<a href="https://www.autosport.com/f1/news/how-the-fia-is-limiting-f1-cars-top-speed-with-new-engine-maps-at-monaco-gp/10825365/">Autosport</a>).</li>
+<li><strong>Overtake Mode:</strong> detection between T16 and T17, activation between T18 and T19 (<a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-circuit-de-monaco.vFsmfGHr6RWyLFtxi58wi">F1.com Monaco guide</a>).</li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Turn</th>
+<th>Common name</th>
+<th>Entry speed km/h (mph), gear</th>
+<th>Brake point (m from line)</th>
+<th>Apex speed km/h (mph), gear</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>Sainte Dévote</td>
+<td>275 (171), 6th</td>
+<td>~92</td>
+<td>~110 (68), 2nd</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Beau Rivage (uphill)</td>
+<td>flat out</td>
+<td>none</td>
+<td>~265 (165), 6th</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Massenet</td>
+<td>270 (168), 6th</td>
+<td>~637</td>
+<td>~155 (96), 3rd</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>Casino Square</td>
+<td>(same braking zone)</td>
+<td></td>
+<td>~140 (87), 3rd</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>Mirabeau Haute</td>
+<td>220 (137), 5th</td>
+<td>~1,019</td>
+<td>~75 (47), 1st</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>Grand Hotel hairpin</td>
+<td>(short brake from ~150 km/h)</td>
+<td></td>
+<td><strong>~45 (28), 1st, slowest corner of the season</strong></td>
+</tr>
+<tr>
+<td>T7</td>
+<td>Mirabeau Bas</td>
+<td></td>
+<td></td>
+<td>~60 (37), 1st</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>Portier</td>
+<td></td>
+<td></td>
+<td>~80 (50), 1st</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>Tunnel</td>
+<td>flat out</td>
+<td>none</td>
+<td>~260 (162), 6th</td>
+</tr>
+<tr>
+<td>T10-T11</td>
+<td>Nouvelle Chicane</td>
+<td>290 (180), 7th</td>
+<td>~1,951</td>
+<td>~70 (43), 1st</td>
+</tr>
+<tr>
+<td>T12</td>
+<td>Tabac</td>
+<td>240 (149), 5th</td>
+<td>~2,263</td>
+<td>~170 (106), 4th</td>
+</tr>
+<tr>
+<td>T13-T14</td>
+<td>Swimming Pool (first part)</td>
+<td>lift, no brake</td>
+<td></td>
+<td>~225-230 (140-143), 5th</td>
+</tr>
+<tr>
+<td>T15-T16</td>
+<td>Swimming Pool (second part)</td>
+<td>250 (155), 6th</td>
+<td>~2,569</td>
+<td>~120 (75), 2nd</td>
+</tr>
+<tr>
+<td>T17</td>
+<td>Kink before Rascasse</td>
+<td></td>
+<td></td>
+<td>~135 (84), 2nd</td>
+</tr>
+<tr>
+<td>T18</td>
+<td>La Rascasse</td>
+<td>200 (124), 4th</td>
+<td>~2,769</td>
+<td>~60 (37), 1st</td>
+</tr>
+<tr>
+<td>T19</td>
+<td>Anthony Noghès</td>
+<td></td>
+<td></td>
+<td>~85 (53), 1st</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source for every speed, gear and distance above: F1 live timing, 2026 Monaco GP qualifying, Antonelli pole lap, via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>. Blank entry cells mean the driver was still slowing from the previous braking zone.</p>
+<p>Top speeds (same lap): start/finish straight <strong>~272 to 276 km/h (169 to 171 mph)</strong> before Sainte Dévote; tunnel exit <strong>289 km/h (180 mph)</strong>. Brembo's hardest stop is Sainte Dévote: <strong>276 to 132 km/h (171 to 82 mph) in 1.67 s over 91 m (299 ft), at 4 g</strong>. The chicane after the tunnel now needs 136 m (446 ft) of braking, up from 91 m in 2025 (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monaco-2026">Brembo Monaco 2026</a>).</p>
+<h4>Silverstone: Silverstone Circuit (home of the first ever World Championship race, 1950)</h4>
+<ul>
+<li>Official length 5.891 km (3.66 mi), 52 laps, 18 turns (<a href="https://www.formula1.com/en/racing/2026/great-britain">F1.com</a>).</li>
+<li>2026 pole: Antonelli 1:28.111. The table uses <strong>Charles Leclerc's 1:28.286</strong> (2nd), which has the cleanest data. Top speed on that lap: <strong>316 km/h (196 mph)</strong> on the run to Copse (F1 live timing via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>).</li>
+<li>Brembo rates Silverstone 1 out of 5 for braking: only 3 real braking zones, just over 6.5 seconds of braking per lap (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-uk-2026">Brembo UK 2026</a>).</li>
+</ul>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Turn</th>
+<th>Common name</th>
+<th>Entry speed km/h (mph), gear</th>
+<th>Brake point (m from line)</th>
+<th>Apex speed km/h (mph), gear</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>Abbey</td>
+<td>flat out</td>
+<td>none</td>
+<td>~295 (183), 8th</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Farm</td>
+<td>flat out</td>
+<td>none</td>
+<td>~280 (174), 7th</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Village</td>
+<td>245 (152), 7th</td>
+<td>~807</td>
+<td>~115 (71), 2nd</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>The Loop</td>
+<td>(same braking zone)</td>
+<td></td>
+<td>~85 (53), 2nd, slowest point of the lap</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>Aintree</td>
+<td>flat out</td>
+<td>none</td>
+<td>~215 (134), 5th</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>Brooklands</td>
+<td>265 (165), 8th</td>
+<td>~1,888</td>
+<td>~170 (106), 4th</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>Luffield</td>
+<td>190 (118), 4th</td>
+<td>~2,074</td>
+<td>~110 (68), 2nd</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>Woodcote</td>
+<td>flat out</td>
+<td>none</td>
+<td>~280 (174), 7th</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>Copse</td>
+<td>flat out</td>
+<td>none</td>
+<td>~290 (180), 7th</td>
+</tr>
+<tr>
+<td>T10-T11</td>
+<td>Maggotts / Becketts</td>
+<td>flat out</td>
+<td>none</td>
+<td>~270-285 (168-177), 7th</td>
+</tr>
+<tr>
+<td>T12-T13</td>
+<td>Becketts</td>
+<td>270 (168), 7th, lift then a dab of brake</td>
+<td>~3,922</td>
+<td>~210-255 (130-158), 5th-6th</td>
+</tr>
+<tr>
+<td>T14</td>
+<td>Chapel</td>
+<td>flat out</td>
+<td>none</td>
+<td>~230 (143), 5th</td>
+</tr>
+<tr>
+<td>T15</td>
+<td>Stowe</td>
+<td>290 (180), 8th</td>
+<td>~4,924</td>
+<td>~225 (140), 6th</td>
+</tr>
+<tr>
+<td>T16-T17</td>
+<td>Vale / Club</td>
+<td>270 (168), 6th</td>
+<td>~5,411</td>
+<td>~110 (68), 2nd</td>
+</tr>
+<tr>
+<td>T18</td>
+<td>Club exit</td>
+<td>flat out</td>
+<td>none</td>
+<td>~185 (115), 4th</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source for every speed, gear and distance above: F1 live timing, 2026 British GP qualifying, Leclerc Q3 lap, via <a href="https://docs.fastf1.dev/">FastF1</a>, <strong>our calculation</strong>. Corner names are the commonly used ones. Silverstone's naming of the Maggotts/Becketts/Chapel turns varies between sources, so treat T10 to T14 names as approximate.</p>
+<p>Top speeds (same lap): Hamilton Straight <strong>314 km/h (195 mph)</strong>; Wellington Straight <strong>305 km/h (190 mph)</strong>; Woodcote to Copse <strong>316 km/h (196 mph)</strong>; Hangar Straight <strong>302 km/h (188 mph)</strong>. Brembo's hardest stop is Turn 16 (Vale): <strong>268 to 116 km/h (167 to 72 mph) in 2.45 s over 125 m (410 ft), at 3.1 g</strong>. At Turn 3 the peak deceleration fell from 4.5 g in 2025 to 2.9 g in 2026 (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-uk-2026">Brembo UK 2026</a>).</p>
+<p><strong>Straight Mode at Silverstone: 4 zones</strong> (<a href="https://www.fia.com/system/files/decision-document/2026_british_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">FIA 2026 British GP circuit map</a>; <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-silverstone-2026.5Sl0O8g393enBWVIkjRzOr">F1.com Silverstone guide</a>):</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Where</th>
+<th>Wings open (normal grip)</th>
+<th>Low-grip start</th>
+<th>Approx. open → close on the Leclerc lap (m)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Hamilton Straight (start/finish)</td>
+<td>65 m after T18</td>
+<td>115 m after T18</td>
+<td>~5,756 → before T1 (end not given on the FIA map; ~290 is our estimate)</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Wellington Straight</td>
+<td>55 m after T5</td>
+<td>115 m after T5</td>
+<td>~1,280 → ~1,888 (braking for T6)</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Luffield to Woodcote/Copse</td>
+<td>155 m after T7</td>
+<td><strong>not used in low grip</strong></td>
+<td>~2,337 → before T9 (end ~2,900 is our estimate)</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Hangar Straight</td>
+<td>65 m after T14</td>
+<td>125 m after T14</td>
+<td>~4,193 → ~4,924 (braking for T15)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Williams' technical brief confirms the third zone, near Woodcote, is switched off in the wet (<a href="https://www.williamsf1.com/articles/5df640e6-d376-4422-9de6-000d972c8053/technical-brief-great-britain">Williams</a>). <strong>Overtake Mode:</strong> detection just after the exit of T17, activation just before T18 (<a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-silverstone-2026.5Sl0O8g393enBWVIkjRzOr">F1.com Silverstone guide</a>; <a href="https://www.fia.com/system/files/decision-document/2026_british_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">FIA map</a>).</p>
+<p><strong>How many Straight Mode zones elsewhere?</strong> PlanetF1 counted the zones round by round: Australia 5, China 4, Japan 2, Miami 3, Canada 3, Monaco 0, Barcelona 4, Austria 4, Britain 4, Belgium 5, Hungary 4, Netherlands 2, Italy 4 (<a href="https://www.planetf1.com/news/italian-grand-prix-2026-fia">PlanetF1</a>). <strong>UNVERIFIED for Canada:</strong> PlanetF1 says 3 zones, while Formula1.com lists four Canadian zones (start/finish; T7 to T8; T9 to T10; T11 to T13) (<a href="https://www.formula1.com/en/latest/article/explained-why-active-aero-will-not-be-used-at-the-monaco-grand-prix.4nLtpjM9ZTUbPBQLmeAbj4">F1.com</a>). Prefer the FIA event map for any circuit you add.</p>
+<p><strong>Animation tips:</strong>
+- Drive the car along the path using the measured speed between keyframes, so that time = distance ÷ speed. Don't move it at a constant rate.
+- Show the wings flipping flat at each "open" point and snapping back at the braking point. At Monaco, show a "Corner Mode locked" badge instead.
+- Shake the camera or show a g-meter at the big braking zones (Monza T1, Monaco T10, Silverstone T16).
+- Colour the track by speed (blue for slow, red for fast). It makes Monaco versus Monza obvious at a glance.</p>
+<h3>1.3 Free track shapes you can use on a public website</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What you get</th>
+<th>Licence and what you must do</th>
+<th>Good for</th>
+<th>Watch out for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>bacinger/f1-circuits</strong> (<a href="https://github.com/bacinger/f1-circuits">GitHub</a>)</td>
+<td>One GeoJSON <code>LineString</code> per circuit (longitude/latitude), plus name, length, opening year, first GP and altitude. Includes 2026 venues such as Madring (<code>es-2026.geojson</code>), Sepang (<code>my-1999.geojson</code>) and Las Vegas (<code>us-2023.geojson</code>). Monza has 125 points.</td>
+<td><strong>MIT licence</strong>: free to use, change and ship, including commercially. You must keep the copyright and licence notice ("Copyright (c) 2019-2025 Tomislav Bacinger") (<a href="https://github.com/bacinger/f1-circuits/blob/master/LICENSE.md">LICENSE</a>).</td>
+<td>Fast, light 2D outlines for every track</td>
+<td>The README says the shapes were first traced from a Google My Maps layer (<a href="https://github.com/bacinger/f1-circuits">README</a>). The precision is "good outline", not survey grade. Height is one altitude value per track, so the outline is flat.</td>
+</tr>
+<tr>
+<td><strong>OpenStreetMap</strong> (OSM) (<a href="https://www.openstreetmap.org/copyright">copyright page</a>)</td>
+<td>Real mapped geometry. Race tracks are usually tagged <code>highway=raceway</code>. You can download them with the Overpass API.</td>
+<td><strong>ODbL 1.0</strong> (<a href="https://opendatacommons.org/licenses/odbl/1-0/">licence</a>). Show "© OpenStreetMap contributors" with a link to the copyright page. If you publish an altered <strong>database</strong> (for example a cleaned GeoJSON file that your site serves to browsers), that file must also be shared under ODbL. A picture or 3D scene made from it is a "produced work" and only needs the attribution.</td>
+<td>Accurate shapes, pit lanes, run-off areas, nearby buildings</td>
+<td>Ways may be split into pieces and include extra layouts, so you have to join and clean them</td>
+</tr>
+<tr>
+<td><strong>FastF1</strong> (<a href="https://docs.fastf1.dev/">docs</a>, MIT code on <a href="https://github.com/theOehrly/Fast-F1">GitHub</a>)</td>
+<td>Python library. Gives car position (X, Y, Z), speed, gear, throttle, brake and lap times from F1's live timing, plus corner numbers and positions (<code>get_circuit_info()</code>).</td>
+<td>The <strong>code</strong> is MIT. The <strong>data</strong> is not FastF1's: FastF1 says it is unofficial and not associated with Formula 1 (<a href="https://docs.fastf1.dev/">FastF1 docs</a>). Formula 1 says it owns rights in "Results and Timing data", and allows only limited, justified, <strong>non-commercial</strong> educational use (<a href="https://www.formula1.com/en/information/guidelines.4EOKE9RRqevL4niTK9kWyt">F1 Guidelines</a>).</td>
+<td>Real speed traces, corner markers, even 3D elevation from Z</td>
+<td>Do not redistribute raw telemetry files. Ship small, rounded, derived numbers (like our keyframes JSON), credit "Data: F1 live timing via FastF1", and ask F1 (brandprotection@f1.com) before any commercial use.</td>
+</tr>
+<tr>
+<td><strong>Sketchfab 3D track models</strong> (CC-BY 4.0)</td>
+<td>Ready-made 3D tracks, for example "Autodromo Nazionale Monza Circuit 2020 layout" (1.19M faces), "Monza Circuit 1998 layout" (152k), "Silverstone Circuit 2024 layout" (1.20M), "Silverstone Circuit 1999 layout" (92k), "Circuit de Spa-Francorchamps 2022 layout" (1.19M), all by Tyler_Dave; "Monaco GP racetrack" by narlankaaditya (19k faces, low poly); "Circuit de Monaco F1" by neosearch (4k faces) (<a href="https://sketchfab.com/3d-models/autodromo-nazionale-monza-circuit-2020-layout-25ed955115094de382935aa6d1a1e9c6">Monza 2020</a>, <a href="https://sketchfab.com/3d-models/monza-circuit-1998-layout-01ee75b53e6d4e2895b6f69ea9cb4f5c">Monza 1998</a>, <a href="https://sketchfab.com/3d-models/silverstone-circuit-2024-layout-bbaf4b12d5244c76998fd44f771fc0b3">Silverstone 2024</a>, <a href="https://sketchfab.com/3d-models/silverstone-circuit-1999-layout-cad872e65ded4292a2061a7cc3b48d78">Silverstone 1999</a>, <a href="https://sketchfab.com/3d-models/circuit-de-spa-francorchamps-2022-layout-ac681fbf548144498c130c3aa0adeb54">Spa 2022</a>, <a href="https://sketchfab.com/3d-models/monaco-gp-racetrack-ebb9b9a0c19e4801815b19c55d14dea3">Monaco low poly</a>, <a href="https://sketchfab.com/3d-models/circuit-de-monaco-f1-77a7a29b4f5b4380970828e3f724e62f">Monaco 4k</a>).</td>
+<td><strong>CC-BY 4.0</strong> on all of these (checked through the Sketchfab API on 15 Oct 2026): credit the author and link the model (<a href="https://creativecommons.org/licenses/by/4.0/">licence</a>). We found no CC0 F1 tracks.</td>
+<td>Hero shots and fly-overs</td>
+<td>Million-face models are too heavy for phones, so decimate them. Some track models may be ported from games: CC-BY only covers what the uploader owns, so read each description. Old layouts (1998/1999) differ from today's. Remove any sponsor boards in the textures.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Recommendation:</strong> use <strong>bacinger GeoJSON</strong> for the 2D/3D lap path on all 23 tracks (simple MIT licence). Add <strong>FastF1-derived keyframes</strong> (rounded) for speed, gear and brake, and <strong>OSM</strong> if you want accurate surroundings. Keep a credits page listing the MIT notice, "© OpenStreetMap contributors", "Data: F1 live timing via FastF1 (unofficial)", and any CC-BY authors.</p>
+<h3>1.4 Turning GeoJSON into a Three.js path (step by step)</h3>
+<ol>
+<li><strong>Load</strong> the file, for example <code>it-1922.geojson</code> (Monza), and take <code>features[0].geometry.coordinates</code>. That is a list of <code>[longitude, latitude]</code> pairs.</li>
+<li><strong>Project to metres.</strong> Longitude/latitude are angles, not distances. Pick the track's centre (lon0, lat0) and convert each point with a simple flat-Earth projection. It is accurate to well under 1% across a 5 km track: <code>x = (lon - lon0) × 111,320 × cos(lat0)</code> and <code>z = -(lat - lat0) × 110,540</code>. In Three.js, Y is up, so north becomes negative Z.</li>
+<li><strong>Close and smooth.</strong> Remove a repeated last point if it equals the first, then build a <code>THREE.CatmullRomCurve3(points, true)</code>. A Catmull-Rom curve is a smooth curve that passes through every point; <code>true</code> makes it a closed loop.</li>
+<li><strong>Scale to the official length.</strong> <code>curve.getLength()</code> gives the drawn length. Multiply all points by <code>officialLength / drawnLength</code> (for example 5,793 m for Monza), so distances in your telemetry line up.</li>
+<li><strong>Find the start line and direction.</strong> Rotate the point list so index 0 sits at the start/finish line, and reverse it if the cars run the other way. Check this against the FIA circuit map or a FastF1 lap.</li>
+<li><strong>Draw the road.</strong> Either a <code>TubeGeometry</code> (quick and round) or, better, a flat ribbon: for each sample along the curve, offset left and right by half the track width (about 12 to 15 m; this width is <strong>our estimate</strong>, not an official figure) using the curve's normal.</li>
+<li><strong>Move the car.</strong> <code>curve.getPointAt(u)</code> gives position and <code>curve.getTangentAt(u)</code> gives heading for any <code>u</code> from 0 to 1. Use <code>getPointAt</code>, not <code>getPoint</code>, because it spaces points evenly by distance. Convert distance to <code>u</code> with <code>u = distance / lapLength</code>, and advance <code>distance</code> each frame by <code>speed × deltaTime</code> using the speed keyframes.</li>
+<li><strong>Add markers</strong> (braking boards, Straight Mode start/end, corner numbers) at their <code>u</code> values from <a href="f1_lap_keyframes.json">f1_lap_keyframes.json</a>.</li>
+</ol>
+<pre><code class="language-js">import * as THREE from 'three';
+
+const R_LAT = 110540, R_LON = 111320;           // metres per degree
+async function loadTrack(url, officialLengthM) {
+  const gj = await (await fetch(url)).json();
+  let coords = gj.features[0].geometry.coordinates;   // [lon, lat]
+  const lon0 = coords.reduce((s, c) =&gt; s + c[0], 0) / coords.length;
+  const lat0 = coords.reduce((s, c) =&gt; s + c[1], 0) / coords.length;
+  const k = Math.cos(lat0 * Math.PI / 180);
+  let pts = coords.map(([lon, lat]) =&gt;
+    new THREE.Vector3((lon - lon0) * R_LON * k, 0, -(lat - lat0) * R_LAT));
+  if (pts[0].distanceTo(pts[pts.length - 1]) &lt; 1) pts.pop();  // drop duplicate end
+  let curve = new THREE.CatmullRomCurve3(pts, true, 'centripetal');
+  const s = officialLengthM / curve.getLength();             // match official length
+  pts = pts.map(p =&gt; p.multiplyScalar(s));
+  curve = new THREE.CatmullRomCurve3(pts, true, 'centripetal');
+  return curve;
+}
+
+// per frame: distance += speed_ms * dt; u = (distance % L) / L;
+// car.position.copy(curve.getPointAt(u));
+// car.lookAt(car.position.clone().add(curve.getTangentAt(u)));
+</code></pre>
+<p>The <code>'centripetal'</code> option avoids loops and overshoots at tight hairpins such as Monaco's Turn 6 (<a href="https://threejs.org/docs/#api/en/extras/curves/CatmullRomCurve3">Three.js CatmullRomCurve3 docs</a>; <a href="https://threejs.org/docs/#api/en/extras/core/Curve">Curve.getPointAt docs</a>).</p>
+<p><strong>Hills (optional):</strong> bacinger gives only one altitude per track. For real elevation, sample FastF1's <code>Z</code> position along a lap and map it onto the curve by distance (a derived use, see the licence notes above), or sample a free elevation model. Exaggerating heights about 2 to 3 times makes Spa's Eau Rouge and Monaco's climb readable on screen.</p>
+<hr />
+<h2>2. TEAMS 2026</h2>
+<p>Eleven teams and 22 drivers race in 2026. That is one more team than in 2025, because <strong>Cadillac</strong> joined, and <strong>Audi</strong> took over the Sauber team (<a href="https://www.formula1.com/en/teams">F1.com teams</a>). A few words first:</p>
+<ul>
+<li><strong>Constructor / team:</strong> the company that designs and builds the car (the <strong>chassis</strong>, meaning the car's main body and frame).</li>
+<li><strong>Power unit (PU):</strong> F1's word for the engine package: a 1.6-litre turbo petrol engine plus an electric motor and battery. Some teams build their own; others buy them from a supplier, like a small airline buying jet engines from Rolls-Royce.</li>
+<li><strong>Base / factory:</strong> where the car is designed and built. Most teams are in England's "Motorsport Valley" around Oxford.</li>
+<li><strong>Constructors' championship:</strong> the yearly title for the best <em>team</em> (points from both cars added together). It is separate from the drivers' championship.</li>
+</ul>
+<p>The table uses each team's Formula1.com profile page (linked) for base, power unit, chassis name, first entry year and championship count. "First entry" is the first year <em>this team, under any name</em>, raced in F1. "Titles" are constructors' championships as Formula1.com counts them, before the end of 2026.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Team (2026 name in short)</th>
+<th>Base</th>
+<th>Power unit</th>
+<th>2026 car</th>
+<th>First entry</th>
+<th>Constructors' titles</th>
+<th>Drivers</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mercedes</td>
+<td>Brackley, UK</td>
+<td>Mercedes</td>
+<td>W17</td>
+<td>1970</td>
+<td>8</td>
+<td>George Russell, Kimi Antonelli</td>
+<td><a href="https://www.formula1.com/en/teams/mercedes">F1.com</a></td>
+</tr>
+<tr>
+<td>Ferrari</td>
+<td>Maranello, Italy</td>
+<td>Ferrari</td>
+<td>SF-26</td>
+<td>1950</td>
+<td>16</td>
+<td>Charles Leclerc, Lewis Hamilton</td>
+<td><a href="https://www.formula1.com/en/teams/ferrari">F1.com</a></td>
+</tr>
+<tr>
+<td>McLaren</td>
+<td>Woking, UK</td>
+<td>Mercedes</td>
+<td>MCL40</td>
+<td>1966</td>
+<td>10</td>
+<td>Lando Norris, Oscar Piastri</td>
+<td><a href="https://www.formula1.com/en/teams/mclaren">F1.com</a></td>
+</tr>
+<tr>
+<td>Red Bull Racing</td>
+<td>Milton Keynes, UK</td>
+<td>Red Bull Ford</td>
+<td>RB22</td>
+<td>1997</td>
+<td>6</td>
+<td>Max Verstappen, Isack Hadjar</td>
+<td><a href="https://www.formula1.com/en/teams/red-bull-racing">F1.com</a></td>
+</tr>
+<tr>
+<td>Racing Bulls</td>
+<td>Faenza, Italy</td>
+<td>Red Bull Ford</td>
+<td>VCARB 03</td>
+<td>1985</td>
+<td>0</td>
+<td>Liam Lawson, Arvid Lindblad</td>
+<td><a href="https://www.formula1.com/en/teams/racing-bulls">F1.com</a></td>
+</tr>
+<tr>
+<td>Alpine</td>
+<td>Enstone, UK</td>
+<td>Mercedes</td>
+<td>A526</td>
+<td>1986</td>
+<td>2</td>
+<td>Pierre Gasly, Franco Colapinto</td>
+<td><a href="https://www.formula1.com/en/teams/alpine">F1.com</a></td>
+</tr>
+<tr>
+<td>Haas</td>
+<td>Kannapolis, USA</td>
+<td>Ferrari</td>
+<td>VF-26</td>
+<td>2016</td>
+<td>0</td>
+<td>Esteban Ocon, Oliver Bearman</td>
+<td><a href="https://www.formula1.com/en/teams/haas">F1.com</a></td>
+</tr>
+<tr>
+<td>Audi</td>
+<td>Hinwil, Switzerland</td>
+<td>Audi</td>
+<td>R26</td>
+<td>2026</td>
+<td>0</td>
+<td>Nico Hülkenberg, Gabriel Bortoleto</td>
+<td><a href="https://www.formula1.com/en/teams/audi">F1.com</a></td>
+</tr>
+<tr>
+<td>Williams</td>
+<td>Grove, UK</td>
+<td>Mercedes</td>
+<td>FW48</td>
+<td>1978</td>
+<td><strong>8 or 9, UNVERIFIED</strong> (see note)</td>
+<td>Carlos Sainz, Alex Albon</td>
+<td><a href="https://www.formula1.com/en/teams/williams">F1.com</a></td>
+</tr>
+<tr>
+<td>Aston Martin</td>
+<td>Silverstone, UK</td>
+<td>Honda</td>
+<td>AMR26</td>
+<td>2018</td>
+<td>0</td>
+<td>Fernando Alonso, Lance Stroll</td>
+<td><a href="https://www.formula1.com/en/teams/aston-martin">F1.com</a></td>
+</tr>
+<tr>
+<td>Cadillac</td>
+<td>Silverstone, UK</td>
+<td>Ferrari</td>
+<td>MAC-26</td>
+<td>2026</td>
+<td>0</td>
+<td>Sergio Pérez, Valtteri Bottas</td>
+<td><a href="https://www.formula1.com/en/teams/cadillac">F1.com</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Notes and conflicts:</strong>
+- <strong>Williams titles: UNVERIFIED.</strong> Formula1.com's Williams page says <strong>8</strong> (<a href="https://www.formula1.com/en/teams/williams">F1.com</a>). Autosport's list of the most successful teams gives Williams <strong>9</strong> (<a href="https://www.autosport.com/f1/news/most-successful-f1-teams-which-team-has-the-most-constructors-titles-5367606/5367606/">Autosport</a>). The commonly cited title years are 1980, 1981, 1986, 1987, 1992, 1993, 1994, 1996 and 1997, which is nine. Use "9" with a note, or quote both.
+- <strong>Team "family trees" make "first entry" and title counts confusing.</strong> Formula1.com counts each team's history on its own line. Alpine's 2 titles are the Renault wins of 2005 and 2006; the 1995 Benetton title from the same Enstone factory is not counted. Aston Martin's line starts in 2018 (the Racing Point era), though the factory goes back to Jordan in 1991. Audi takes over Sauber's Hinwil factory but is listed as a new 2026 entry. Mercedes' 1970 date is the Tyrrell/BAR/Honda/Brawn factory line at Brackley. Red Bull's 1997 is the Stewart line. Racing Bulls' 1985 is the Minardi line. All from the linked F1.com pages.
+- <strong>2026 results so far</strong> (17 of 23 rounds, <a href="https://www.formula1.com/en/racing/2026">F1.com calendar</a>): Mercedes has won 11 races (Antonelli 8, Russell 3). The rest: Hamilton (Ferrari) won Barcelona, Leclerc (Ferrari) Britain, Norris (McLaren) Hungary and the Netherlands, and Verstappen (Red Bull) Malaysia and Singapore.
+- <strong>The reigning champions</strong> going into 2026 were McLaren (constructors', second year in a row) and Lando Norris (drivers', 2025) (<a href="https://www.brembo.com/en/motorsport/formula1/2025-numbers">Brembo 2025 season numbers</a>).</p>
+<h3>Team summaries (for the team cards)</h3>
+<p>Leadership names are from each team's F1.com page (link in the table above).</p>
+<ul>
+<li><strong>Mercedes:</strong> The silver team from Brackley, run by Toto Wolff. It dominated the first hybrid era with eight straight constructors' titles from 2014 to 2021. It started 2026 as the team to beat, winning 11 of the first 17 races. Its Italian teenager, Kimi Antonelli, leads the championship.</li>
+<li><strong>Ferrari:</strong> The only team that has raced in every season since 1950, and the most successful, with 16 constructors' titles. Its red cars are built in Maranello, Italy. Team boss Fred Vasseur pairs Charles Leclerc with seven-time champion Lewis Hamilton, who joined in 2025.</li>
+<li><strong>McLaren:</strong> Founded by New Zealander Bruce McLaren and based in Woking, England. It won the 2024 and 2025 constructors' titles, and Lando Norris won the 2025 drivers' crown. Team principal Andrea Stella runs it. Since 2026 it uses Mercedes power units.</li>
+<li><strong>Red Bull Racing:</strong> An energy-drink-owned team from Milton Keynes. It won four titles in a row with Sebastian Vettel (2010–13) and four more drivers' titles with Max Verstappen (2021–24). For 2026 it builds its own power unit for the first time, with Ford as a partner. Laurent Mekies leads the team.</li>
+<li><strong>Racing Bulls:</strong> Red Bull's second team, based in Faenza, Italy. It began life as Minardi in 1985 and has been a training ground for young drivers such as Vettel and Verstappen. In 2026 it fields Liam Lawson and rookie Arvid Lindblad. Alan Permane is team principal.</li>
+<li><strong>Alpine:</strong> Renault's sports brand, racing from the Enstone factory that won titles as Benetton in 1995 and as Renault in 2005–06. From 2026 it buys Mercedes power units instead of building Renault engines. Flavio Briatore is executive adviser and Steve Nielsen managing director. Pierre Gasly took a surprise pole at Monza in 2026.</li>
+<li><strong>Haas:</strong> The only American-owned team before Cadillac, founded by Gene Haas, with its base in Kannapolis, North Carolina, and a UK office. It buys many parts and its power unit from Ferrari. Ayao Komatsu is team chief. Its 2026 entry name carries Toyota's TGR (Toyota Gazoo Racing) branding, reflecting a technical partnership.</li>
+<li><strong>Audi:</strong> The German car maker's first season as a works F1 team, building both chassis and power unit. It took over the long-running Sauber team in Hinwil, Switzerland. Mattia Binotto, Ferrari's former boss, heads the project and is also team principal.</li>
+<li><strong>Williams:</strong> A family-founded team from Grove, England, started by Sir Frank Williams and Patrick Head. It was the powerhouse of the 1980s and 1990s, with world champions such as Nigel Mansell and Damon Hill. Team principal James Vowles is rebuilding it around Carlos Sainz and Alex Albon.</li>
+<li><strong>Aston Martin:</strong> The British sports-car brand's team, based at a new factory next to the Silverstone circuit. Legendary designer Adrian Newey joined in 2025 and leads the team, and Honda became its works power-unit partner in 2026. Fernando Alonso, a two-time champion, races alongside Lance Stroll.</li>
+<li><strong>Cadillac:</strong> The 11th team and the first new team since Haas in 2016, backed by General Motors and TWG Motorsports (<a href="https://www.formula1.com/en/teams/cadillac">F1.com Cadillac</a>). It races with Ferrari power units until a GM unit is ready. Graeme Lowdon was its first team principal; F1.com now lists Marcin Budkowski as team chief. Veterans Sergio Pérez and Valtteri Bottas give it experience. Its best result so far in 2026 is 13th (<a href="https://www.formula1.com/en/teams/cadillac">F1.com Cadillac</a>).</li>
+</ul>
+<p>Toyota's exact role at Haas is not detailed on the F1.com page and is listed under Gaps.</p>
+<h3>Trademark and image caution (important)</h3>
+<ul>
+<li><strong>Use names in plain text only.</strong> "Ferrari", "Mercedes", "Red Bull", "Formula 1", "F1", "Grand Prix" event names and team names are registered trademarks. Formula 1 lets others use its word marks <strong>only to describe or inform</strong>, not as decoration or branding. Logos must not be used without a licence (<a href="https://www.formula1.com/en/information/guidelines.4EOKE9RRqevL4niTK9kWyt">F1 Guidelines</a>).</li>
+<li><strong>No logos, badges, team liveries or sponsor decals</strong> on your 3D cars or anywhere else. Paint every model in neutral colours, or your own colour scheme, and remove sponsor textures from downloaded models. A <strong>livery</strong> is a team's paint scheme and sponsor artwork, and it is protected as part of the team's brand.</li>
+<li><strong>No official photos or video</strong> without a licence. Formula 1 and team images are copyrighted.</li>
+<li><strong>Say clearly that the site is unofficial</strong>, for example: "This is an unofficial educational fan site. It is not associated with Formula 1, the FIA or any team. F1, FORMULA 1 and related marks are trade marks of Formula One Licensing B.V." (<a href="https://www.formula1.com/en/information/guidelines.4EOKE9RRqevL4niTK9kWyt">F1 Guidelines</a>).</li>
+<li>Team colours can be hinted at with a single swatch next to the name, as a reader aid. That is a judgement call, not a legal guarantee. Get legal advice for any commercial launch, and contact brandprotection@f1.com about licensing.</li>
+</ul>
+<hr />
+<h2>3. COMPARISON TOOL: F1 car vs family car vs supercar vs aircraft</h2>
+<p><strong>What the metrics mean:</strong>
+- <strong>0-100 km/h (0-62 mph):</strong> time to accelerate from standstill to town-motorway speed.
+- <strong>0-200 km/h (0-124 mph):</strong> the same, to roughly the top speed of a small family car.
+- <strong>Top speed:</strong> the fastest the vehicle can go.
+- <strong>200-0 km/h braking:</strong> the time and distance to stop from 200 km/h.
+- <strong>Peak braking g:</strong> how hard the stop pushes the body forward. A normal hard stop in a family car is just under 1 g.
+- <strong>Peak cornering g:</strong> the sideways push in a fast bend.
+- <strong>Power-to-weight:</strong> engine power divided by weight. Higher means quicker. For jets we give <strong>thrust-to-weight</strong> instead, because jet engines produce push, not wheel power.
+- <strong>Weight:</strong> as published. Each row says whether the driver or fuel is included.</p>
+<p><strong>Chosen examples:</strong>
+- <strong>F1 car:</strong> 2026 rules.
+- <strong>Family car:</strong> 2023 Toyota Corolla Hybrid, one of the world's best-selling cars, tested by Car and Driver.
+- <strong>Supercar:</strong> Ferrari SF90 Stradale, a 1,000 cv plug-in hybrid. "cv" is the Italian horsepower unit, about 0.986 hp.
+- <strong>Airliner:</strong> Airbus A320neo, a typical short-haul jet.
+- <strong>Fighter jet:</strong> Lockheed Martin F-16 Fighting Falcon.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>F1 car (2026)</th>
+<th>Family car (Toyota Corolla Hybrid SE AWD, 2023)</th>
+<th>Supercar (Ferrari SF90 Stradale)</th>
+<th>Airliner (Airbus A320neo)</th>
+<th>Fighter jet (F-16)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0-100 km/h</strong></td>
+<td><strong>~2.3 to 2.9 s</strong>, our calculation from 12 race starts in 2026 telemetry (<a href="https://docs.fastf1.dev/">FastF1</a>). No official figure.</td>
+<td>0-60 mph (97 km/h) in <strong>9.0 s</strong> (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>2.5 s</strong> (<a href="https://www.ferrari.com/en-EN/auto/sf90-stradale">Ferrari</a>; <a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>not published</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><strong>0-200 km/h</strong></td>
+<td><strong>~4.5 to 5.4 s</strong>, our calculation, same race starts (<a href="https://docs.fastf1.dev/">FastF1</a>). For reference, the 2025 Aston Martin AMR25 is listed at <strong>0-160 km/h (99 mph) in 3.7 s</strong> (<a href="https://www.astonmartinf1.com/en-GB/AMR25">Aston Martin F1</a>).</td>
+<td>Cannot reach 200 km/h. 0-100 mph (161 km/h) takes <strong>38.7 s</strong> (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>6.7 s</strong> (<a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>not published</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><strong>Top speed</strong></td>
+<td><strong>342 km/h (213 mph)</strong> in 2026 qualifying at Monza; <strong>358 km/h (222 mph)</strong> fastest 2026 speed trap, Ocon, Barcelona race, with a slipstream (F1 timing via <a href="https://docs.fastf1.dev/">FastF1</a>). All-time race record <strong>372.5 km/h (231 mph)</strong>, Bottas, Mexico 2016 (<a href="https://www.williamsf1.com/articles/253b1dc5-aee9-4d3b-b720-8e30f3a83093/how-fast-can-an-f1-car-go">Williams</a>)</td>
+<td><strong>172 km/h (107 mph)</strong>, electronically limited (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>340 km/h (211 mph)</strong> (<a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>Max operating <strong>Mach 0.82</strong> (<a href="https://aircraft.airbus.com/en/aircraft/a320-family/a320neo">Airbus</a>), about <strong>870 km/h (541 mph)</strong> at 11 km (36,000 ft) altitude (our conversion)</td>
+<td><strong>Mach 2 class, about 2,414 km/h (1,500 mph)</strong> at altitude (<a href="https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/">US Air Force</a>)</td>
+</tr>
+<tr>
+<td><strong>200-0 km/h braking</strong></td>
+<td><strong>~1.9 to 2.3 s, ~50 to 65 m (165 to 215 ft), UNVERIFIED</strong> (our estimate from 2.5 to 3 g average deceleration; no published figure). Real example: Monza T1, 318 to 87 km/h in 3.22 s and 153 m (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monza-2026">Brembo</a>)</td>
+<td>n/a (top speed 172 km/h). 70-0 mph (113 km/h) takes <strong>55 m (181 ft)</strong> (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>~118 m (387 ft), UNVERIFIED</strong> (our scaling of Ferrari's 100-0 figure of under 29.5 m (97 ft)) (<a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>not comparable</td>
+<td>not comparable</td>
+</tr>
+<tr>
+<td><strong>Peak braking g</strong></td>
+<td><strong>About 4 g in 2026</strong>: Brembo figures of 3.7 to 4 g at Monza and Monaco (<a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monza-2026">Brembo Monza</a>; <a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monaco-2026">Brembo Monaco</a>); our telemetry estimate is 4.1 to 4.3 g. 2025 cars peaked at <strong>5.1 g</strong> in Canada (<a href="https://www.brembo.com/en/motorsport/formula1/2025-numbers">Brembo 2025</a>)</td>
+<td><strong>~0.9 g</strong> average in the 70-0 mph test (our calculation from <a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>~1.3 g</strong> average 100-0 (our calculation from the <a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>not comparable</td>
+<td>not comparable</td>
+</tr>
+<tr>
+<td><strong>Peak cornering g</strong></td>
+<td><strong>Up to 5 g or more</strong> for the high-downforce 2024 cars (Suzuka Turn 1, Eau Rouge, Maggotts) (<a href="https://www.mercedesamgf1.com/news/g-force-and-formula-one-explained">Mercedes</a>). <strong>2026: UNVERIFIED</strong>, lower because the 2026 cars have less downforce, but no published number</td>
+<td><strong>0.80 g</strong> on the skidpad (a circular test pad) (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td>not published by Ferrari</td>
+<td>Normal flight load limit <strong>+2.5 g</strong> for this class of airliner (<a href="https://www.law.cornell.edu/cfr/text/14/25.337">US 14 CFR 25.337</a>). Passengers normally feel far less.</td>
+<td><strong>+9 g</strong> (<a href="https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/">US Air Force</a>)</td>
+</tr>
+<tr>
+<td><strong>Power-to-weight</strong></td>
+<td><strong>~0.98 kW per kg</strong>: about 400 kW engine + 350 kW electric (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond">FIA</a>) divided by 768 kg (our calculation)</td>
+<td><strong>~0.07 kW/kg</strong>: 100 kW (134 hp) ÷ 1,460 kg (our calculation from <a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>~0.47 kW/kg</strong>: 735 kW (1,000 cv) ÷ 1,570 kg dry (our calculation from the <a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td>not comparable (thrust)</td>
+<td>Thrust-to-weight <strong>about 1 : 1</strong>: 27,000 lb (120 kN) thrust vs about 26,700 lb (12.1 t) without-fuel weight plus full internal fuel (our calculation from the <a href="https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/">US Air Force</a>)</td>
+</tr>
+<tr>
+<td><strong>Weight</strong></td>
+<td><strong>768 kg (1,693 lb)</strong> minimum, including driver, without fuel (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond">FIA</a>)</td>
+<td><strong>1,460 kg (3,218 lb)</strong> as tested (<a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">Car and Driver</a>)</td>
+<td><strong>1,570 kg (3,461 lb)</strong> dry (<a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">Ferrari spec sheet</a>)</td>
+<td><strong>79 t (174,165 lb)</strong> maximum take-off weight (<a href="https://aircraft.airbus.com/en/aircraft/a320-family/a320neo">Airbus</a>)</td>
+<td><strong>8,936 kg (19,700 lb)</strong> without fuel; 16,875 kg (37,500 lb) maximum take-off (<a href="https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/">US Air Force</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>How we got the F1 acceleration numbers.</strong>
+- We took 12 race-start launches in 2026: Monza, Silverstone, Spa and Austria, cars at the front of the grid. The speed traces come from F1 live timing via <a href="https://docs.fastf1.dev/">FastF1</a>.
+- The race starts are with full fuel (cars weigh roughly 100 kg more). The traces are sampled about 4 times a second and include wheelspin, so a best-case car could be quicker.
+- Show the result as a range, "about 2.5 seconds", not a single exact time.
+- There is <strong>no official 2026 0-100 figure</strong> from the FIA or the teams.</p>
+<p><strong>Why the F1 car loses to the supercar 0-100 but crushes it after.</strong> Both get about 2.5 s to 100 km/h, because below that speed <strong>traction</strong> is the limit (how much grip the rear tyres have before they spin), not power. The supercar has four-wheel drive. Above 100 km/h the F1 car's double power-to-weight wins easily: about 5 s to 200 km/h against 6.7 s.</p>
+<p><strong>Fun comparisons for captions:</strong>
+- <strong>Braking:</strong> at 4 g, a 75 kg (165 lb) driver's head and body press forward as if they weighed 300 kg (660 lb) (our calculation). The F1 car stops harder than any road car and harder than a jet airliner ever manoeuvres.
+- <strong>Cornering:</strong> at about 5 g the driver's head and helmet, about 7 kg (15 lb) together (our estimate), feel like 35 kg (77 lb) pulling sideways.
+- <strong>Speed:</strong> the 2026 F1 car's 358 km/h (222 mph) is faster than the take-off speed of most airliners. The usual figure is around 250 to 290 km/h (155 to 180 mph), but that is <strong>UNVERIFIED</strong>: we found no official A320neo figure.</p>
+<hr />
+<h2>4. PIT STOP GAME</h2>
+<h3>4.1 What is a pit stop?</h3>
+<p>A <strong>pit stop</strong> is when a driver leaves the track, drives down the <strong>pit lane</strong> (a road beside the main straight, lined with team garages), stops in front of the garage in a marked <strong>pit box</strong>, gets four new tyres, and drives off again. Refuelling is only allowed inside the team garages, not at a pit stop, so a normal stop is only about tyres, and sometimes a front-wing adjustment or a new nose (<a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">FIA Sporting Regulations B1.5.9</a>). Think of a supermarket car wash done by 20 people in two seconds.</p>
+<h3>4.2 The crew</h3>
+<p>Mercedes describes a crew of <strong>up to 22 people</strong> (<a href="https://www.mercedesamgf1.com/news/box-box-pitstop-explained">Mercedes</a>). Formula1.com describes the same roles (<a href="https://www.formula1.com/en/latest/article/anatomy-of-a-pit-stop-how-do-f1-teams-service-their-cars-in-less-than-two.5p9LNdd8XJdvP4mRsXoGsB">F1.com</a>).</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Role</th>
+<th>How many</th>
+<th>What they do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wheel gun operators</td>
+<td>4 (one per wheel)</td>
+<td>Use an air-powered wrench (the <strong>wheel gun</strong>) to undo and tighten the single central wheel nut</td>
+</tr>
+<tr>
+<td>Wheel-off crew</td>
+<td>4</td>
+<td>Pull the old wheel away</td>
+</tr>
+<tr>
+<td>Wheel-on crew</td>
+<td>4</td>
+<td>Push the new wheel on</td>
+</tr>
+<tr>
+<td>Front jack</td>
+<td>1 (plus 1 spare)</td>
+<td>Lifts the front with a long lever jack as the nose arrives</td>
+</tr>
+<tr>
+<td>Rear jack</td>
+<td>1 (plus 1 spare)</td>
+<td>Lifts the rear</td>
+</tr>
+<tr>
+<td>Stabilisers</td>
+<td>2</td>
+<td>Hold the car steady at the sides while it is in the air</td>
+</tr>
+<tr>
+<td>Front-wing adjusters</td>
+<td>2</td>
+<td>Change the front-wing angle with a tool if the engineers ask</td>
+</tr>
+<tr>
+<td>Controller / chief mechanic</td>
+<td>1</td>
+<td>Watches every corner and runs the release light (red/green) that tells the driver to go</td>
+</tr>
+<tr>
+<td>Reviewer / spare</td>
+<td>1</td>
+<td>Checks the stop and acts as a backup</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 12 tyre crew (3 per wheel) + 4 jack people + 2 stabilisers + 2 wing adjusters + 1 controller + 1 reviewer = <strong>22</strong> (<a href="https://www.mercedesamgf1.com/news/box-box-pitstop-explained">Mercedes</a>). For a simpler game, use 12 wheel crew + 2 jacks + 1 controller = 15 playable roles.</p>
+<h3>4.3 Step by step, with timings for a 2.2-second stop</h3>
+<p>From Formula1.com's breakdown of a typical stop (<a href="https://www.formula1.com/en/latest/article/anatomy-of-a-pit-stop-how-do-f1-teams-service-their-cars-in-less-than-two.5p9LNdd8XJdvP4mRsXoGsB">F1.com</a>). Time 0 is when the car stops.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Time (s)</th>
+<th>Step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-15 to -20</td>
+<td>Crew walk out and take their places; new tyres are laid by each corner</td>
+</tr>
+<tr>
+<td>-0.1</td>
+<td>The nose touches the front jack while still rolling</td>
+</tr>
+<tr>
+<td>0.0</td>
+<td>Car stops on its marks</td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>Front jack lifts the car</td>
+</tr>
+<tr>
+<td>0.4</td>
+<td>Rear jack lifts the car; guns start undoing the nuts</td>
+</tr>
+<tr>
+<td>~0.6</td>
+<td>Old wheels come off</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>New wheels are on</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>Guns are back on the nuts, tightening</td>
+</tr>
+<tr>
+<td>1.9</td>
+<td>All guns off; each gun operator signals "done"</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>Car is dropped back to the ground</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>Release light turns green; the driver pulls away</td>
+</tr>
+</tbody>
+</table></div>
+<p>Mercedes gives similar phases: jacking and nut-off about 0.4 s, wheel swap about 1 s, gun-on about 0.3 s, drop under 0.1 s, and <strong>the driver's own reaction to the green light about 0.3 s</strong> (<a href="https://www.mercedesamgf1.com/news/box-box-pitstop-explained">Mercedes</a>).</p>
+<h3>4.4 Key numbers</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A good stop</td>
+<td>2.0 to 2.5 s (stationary time)</td>
+<td><a href="https://www.formula1.com/en/latest/article/anatomy-of-a-pit-stop-how-do-f1-teams-service-their-cars-in-less-than-two.5p9LNdd8XJdvP4mRsXoGsB">F1.com</a>; 2026 winners below</td>
+</tr>
+<tr>
+<td><strong>World record</strong></td>
+<td><strong>1.80 s</strong>, McLaren (Lando Norris), Qatar GP, 8 Oct 2023</td>
+<td><a href="https://www.guinnessworldrecords.com/world-records/108666-fastest-formula-one-pit-stop">Guinness World Records</a></td>
+</tr>
+<tr>
+<td>Fastest stop of 2026 so far</td>
+<td><strong>1.99 s</strong>, Racing Bulls, Hungarian GP</td>
+<td><a href="https://www.formula1.com/en/results/2026/awards/fastest-pit-stops">F1.com DHL Fastest Pit Stop</a></td>
+</tr>
+<tr>
+<td>Pit lane speed limit</td>
+<td><strong>80 km/h (50 mph)</strong>. The Race Director can change it for safety at a given track</td>
+<td><a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">FIA Sporting Regs B1.6.3a</a></td>
+</tr>
+<tr>
+<td>Speeding penalty</td>
+<td>In practice: a fine of €100 per km/h over the limit, up to €1,000. In the race: a time penalty, drive-through or stop-and-go</td>
+<td><a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">FIA Sporting Regs B1.6.3</a></td>
+</tr>
+<tr>
+<td>Total time lost in the pit lane</td>
+<td>Monza ~26 s, Monaco ~24 s, Silverstone ~29.5 s (2026 median, pit entry to exit lines, including the stop)</td>
+<td>Our calculation from 2026 race timing via <a href="https://docs.fastf1.dev/">FastF1</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>2026 DHL fastest stop per race</strong> (stationary time; <a href="https://www.formula1.com/en/results/2026/awards/fastest-pit-stops">F1.com</a>): Australia Mercedes 2.17 s; China Ferrari 2.29; Japan Ferrari 2.00; Miami Racing Bulls 2.08; Canada Racing Bulls 2.20; Monaco Mercedes 2.17; Barcelona McLaren 2.13; Austria Racing Bulls 2.03; Britain Mercedes 2.18; Belgium Ferrari 2.30; Hungary Racing Bulls 1.99; Netherlands Audi 2.30; Italy Audi 2.44; Spain (Madrid) Mercedes 2.14; Azerbaijan Mercedes 2.33; Bahrain GP (Malaysia) Red Bull 2.09; Singapore Red Bull 2.20.</p>
+<p>The 2026 stops are slower than the 1.80 s record. One possible reason is that teams build in more safety margin, but we found no source that confirms the cause.</p>
+<h3>4.5 Rules the game can teach</h3>
+<p>All from the <a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">FIA 2026 Sporting Regulations, Issue 09</a>.</p>
+<ul>
+<li><strong>Unsafe release (B1.6.2):</strong> the team must not send the car out if it could hit another car or a crew member, or with a wheel not properly fitted. A car counts as "released" once its rear axle passes where its front axle stopped. If a car is released in an unsafe condition, for example with a loose wheel, in the race it gets a <strong>stop-and-go penalty</strong> (it must come back, stop for the set time, and leave). In qualifying or practice it gets a <strong>grid drop</strong> for the race. The game can flash "UNSAFE RELEASE!" if the player hits Go before all four guns signal done, or as another car passes.</li>
+<li><strong>Two dry compounds (B6.3.6):</strong> in a dry race each driver must use <strong>at least two different dry tyre compounds</strong> (for example Medium and Hard). That means at least one stop, unless the driver uses intermediate or wet tyres. Breaking this rule means <strong>disqualification</strong>. A <strong>compound</strong> is the rubber recipe: softer is grippier but wears faster, like a sticky eraser versus a hard one.</li>
+<li><strong>No powered jacks (B1.6.1d):</strong> the lifting devices must be human-powered.</li>
+<li><strong>Helmets and eye protection (B1.6.2d):</strong> everyone working on the car at a stop must wear a motorcycle-standard helmet and eye protection.</li>
+<li><strong>Monaco:</strong> the special two-stop rule used at Monaco in 2025 was scrapped for 2026 (<a href="https://www.motorsport.com/f1/news/monaco-scraps-mandatory-two-stop-rule-for-2026-/10801049/">Motorsport.com</a>).</li>
+</ul>
+<h3>4.6 Suggested game timing (based on the figures above)</h3>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Player action</th>
+<th>Target window</th>
+<th>Scoring idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Car stopping on its marks (driver brakes at the box)</td>
+<td>Stop within ±0.3 m of the line</td>
+<td>Missing the mark adds +0.5 s (crew must shuffle)</td>
+</tr>
+<tr>
+<td>Front and rear jack lift</td>
+<td>Press within 0.3 s of the car stopping</td>
+<td>Each 0.1 s late adds 0.1 s</td>
+</tr>
+<tr>
+<td>Nut off (×4 guns)</td>
+<td>0.2 to 0.4 s after jack-up</td>
+<td>A "cross-thread" mini-fail on a mistimed press adds +1 to 3 s (a slow wheel, like a real problem stop)</td>
+</tr>
+<tr>
+<td>Wheel off/on (×4 corners)</td>
+<td>Complete by 1.2 s</td>
+<td></td>
+</tr>
+<tr>
+<td>Nut on (×4)</td>
+<td>1.2 to 1.9 s</td>
+<td>Missing it causes a loose wheel. Releasing anyway counts as an unsafe release: penalty screen</td>
+</tr>
+<tr>
+<td>Drop and green light</td>
+<td>Drop at ~2.1 s; green at ~2.2 s</td>
+<td>Green while another car passes counts as an unsafe release</td>
+</tr>
+<tr>
+<td>Driver reaction</td>
+<td>~0.3 s</td>
+<td>Display only</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Score bands:</strong>
+- Under 1.80 s: "Beat the world record!" (1.80 s per <a href="https://www.guinnessworldrecords.com/world-records/108666-fastest-formula-one-pit-stop">Guinness</a>)
+- 1.80 to 2.2 s: "Race-winning stop"
+- 2.2 to 3.0 s: "Solid"
+- Over 3 s: "Slow stop: you lost a place"</p>
+<p>Add the pit lane time (for example 24 s at Monaco, 26 s at Monza, 29.5 s at Silverstone) to explain why one stop costs a whole lot more than 2 seconds.</p>
+<hr />
+<h2>5. ERA TIMELINE SLIDER: spec cards</h2>
+<p>Each card matches a model picked in <a href="f1_era_models.md">f1_era_models.md</a>.
+- <strong>hp</strong> = horsepower. 1 hp ≈ 0.746 kW. Ferrari's "cv" ≈ 0.986 hp.
+- Weights before 1995 or so are usually the car <em>without</em> the driver. Modern weights include the driver. The cards say which.
+- <strong>Top speed</strong> is the hardest number to source for old cars: makers rarely published it, and it changed with gearing at each track. Where no good source exists we say so, rather than repeat internet guesses.
+- The <strong>"naturally aspirated"</strong> engine on many cards breathes normal air with no turbo. A <strong>turbo</strong> uses exhaust gas to spin a fan that forces extra air in. A <strong>hybrid</strong> adds an electric motor and battery.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Era</th>
+<th>Card car (model in f1_era_models.md)</th>
+<th>Year</th>
+<th>Engine</th>
+<th>Power</th>
+<th>Weight</th>
+<th>Top speed</th>
+<th>Sources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1950s</td>
+<td>Mercedes-Benz W196 R</td>
+<td>1954</td>
+<td>2.5 L straight-8, naturally aspirated, direct fuel injection</td>
+<td><strong>257 hp (189 kW)</strong> at 8,250 rpm (1954); <strong>290 hp (213 kW)</strong> for 1955</td>
+<td>Gap (not found in an official source)</td>
+<td>Gap</td>
+<td><a href="https://mercedes-benz-publicarchive.com/marsClassic/en/instance/ko/Mercedes-Benz-W-196-R-streamlined-racing-car-1954.xhtml?oid=6873">Mercedes-Benz archive 1954</a>; <a href="https://mercedes-benz-publicarchive.com/marsClassic/en/instance/ko/Mercedes-Benz-W-196-R-racing-car-1955.xhtml?oid=6876">archive 1955</a></td>
+</tr>
+<tr>
+<td>1960s</td>
+<td>Ferrari 312 F1-67 (model: "1967 Ferrari 312")</td>
+<td>1967</td>
+<td>3.0 L (2,989.56 cc) 60° V12, naturally aspirated</td>
+<td><strong>390 hp (287 kW)</strong> at 10,000 rpm</td>
+<td><strong>548 kg (1,208 lb)</strong> with fluids, no driver</td>
+<td>Gap</td>
+<td><a href="https://www.ferrari.com/en-EN/formula1/312-f1-67">Ferrari</a></td>
+</tr>
+<tr>
+<td>1970s</td>
+<td>Lotus 72D</td>
+<td>1972</td>
+<td>Cosworth DFV 3.0 L V8, naturally aspirated</td>
+<td><strong>UNVERIFIED:</strong> 405 hp at 9,000 rpm at the DFV's 1967 debut (<a href="https://www.grandprixengines.co.uk/cosworthstory.pdf">Grand Prix Engines</a>); 440 to 465 hp for the Lotus 72 years (<a href="https://en.wikipedia.org/wiki/Lotus_72">Wikipedia, citing StatsF1</a>)</td>
+<td>Gap</td>
+<td>Gap</td>
+<td>as listed</td>
+</tr>
+<tr>
+<td>1970s (alt)</td>
+<td>Ferrari 312T (model: "1976 Ferrari 312T")</td>
+<td>1975 spec</td>
+<td>3.0 L (2,991.8 cc) flat-12, naturally aspirated</td>
+<td><strong>495 hp (364 kW)</strong> at 12,200 rpm</td>
+<td><strong>575 kg (1,268 lb)</strong></td>
+<td>Gap</td>
+<td><a href="https://www.ferrari.com/en-EN/formula1/312-t">Ferrari</a>. Note: Ferrari raced the updated 312 T2 for most of 1976, so label the card "312T (1975)" or "312T family"</td>
+</tr>
+<tr>
+<td>Late 1970s</td>
+<td>Brabham BT46B "fan car"</td>
+<td>1978</td>
+<td>Alfa Romeo 3.0 L flat-12, naturally aspirated</td>
+<td><strong>~520 hp (388 kW)</strong>, secondary source (<a href="https://en.wikipedia.org/wiki/Brabham_BT46">Wikipedia, citing StatsF1</a>). The rear fan took about 30 hp (<a href="https://www.the-race.com/formula-1/nine-things-you-may-not-know-about-brabhams-iconic-f1-fan-car/">The Race</a>)</td>
+<td>Gap</td>
+<td>Gap</td>
+<td>as listed. Raced once (1978 Swedish GP) and won (<a href="https://www.the-race.com/formula-1/nine-things-you-may-not-know-about-brabhams-iconic-f1-fan-car/">The Race</a>)</td>
+</tr>
+<tr>
+<td>1980s turbo</td>
+<td>Brabham BT52</td>
+<td>1983</td>
+<td>BMW M12/13 1.5 L 4-cylinder turbo</td>
+<td><strong>~640 hp (477 kW)</strong> in race trim at 2.9 bar boost. BMW says later versions reached up to about 1,400 hp in qualifying</td>
+<td>Gap</td>
+<td>Gap</td>
+<td><a href="https://www.press.bmwgroup.com/global/article/attachment/T0299937EN/436963">BMW Group press PDF</a></td>
+</tr>
+<tr>
+<td>1980s turbo (alt)</td>
+<td>McLaren MP4/4 (low-poly model)</td>
+<td>1988</td>
+<td>Honda RA168E 1.5 L 80° V6 twin-turbo</td>
+<td><strong>UNVERIFIED:</strong> 685 hp at 12,300 rpm (<a href="https://global.honda/en/F1/machine/1988_McLarenHondaMP44/">Honda</a>); "at times in excess of 700 bhp" (<a href="https://www.mclaren.com/racing/heritage/formula-1/cars/1988-formula-1-mclaren-mp4-4/">McLaren heritage</a>); 675 hp (<a href="https://en.wikipedia.org/wiki/McLaren_MP4/4">Wikipedia, citing StatsF1</a>)</td>
+<td><strong>540 kg (1,190 lb)</strong> without driver (<a href="https://global.honda/en/F1/machine/1988_McLarenHondaMP44/">Honda</a>)</td>
+<td>Gap</td>
+<td>as listed.</td>
+</tr>
+<tr>
+<td>1990s</td>
+<td>Benetton B190</td>
+<td>1990</td>
+<td>Ford HB 3.5 L V8, naturally aspirated</td>
+<td><strong>~650 hp (485 kW)</strong> at 13,000 rpm, secondary source (<a href="https://en.wikipedia.org/wiki/Benetton_B190">Wikipedia, citing StatsF1</a>)</td>
+<td><strong>500 kg (1,102 lb)</strong>, UNVERIFIED (same secondary source)</td>
+<td>Gap</td>
+<td>as listed</td>
+</tr>
+<tr>
+<td>2000s</td>
+<td>Ferrari F2004</td>
+<td>2004</td>
+<td>3.0 L (2,997 cc) 90° V10, naturally aspirated</td>
+<td><strong>865 hp (636 kW)</strong> at 18,300 rpm</td>
+<td><strong>605 kg (1,334 lb)</strong> with driver, water and oil</td>
+<td>Gap for the car. For era context, Juan Pablo Montoya reached <strong>372.6 km/h (231.5 mph)</strong> at a 2005 Monza test, and Räikkönen 370.1 km/h (230 mph) in the 2005 Italian GP (<a href="https://www.williamsf1.com/articles/253b1dc5-aee9-4d3b-b720-8e30f3a83093/how-fast-can-an-f1-car-go">Williams</a>)</td>
+<td><a href="https://www.ferrari.com/en-EN/formula1/f2004">Ferrari</a></td>
+</tr>
+<tr>
+<td>2009-2013</td>
+<td>Red Bull RB6</td>
+<td>2010</td>
+<td>Renault RS27 2.4 L V8, naturally aspirated, rev limit 18,000 rpm</td>
+<td><strong>~750 hp (559 kW)</strong> at 18,000 rpm</td>
+<td><strong>620 kg (1,367 lb)</strong> minimum with driver (2010 rule)</td>
+<td>Gap</td>
+<td>Power: <a href="https://www.renault.com.gh/discover/MoteurRS272012.html">Renault</a>. Weight: <a href="https://www.motorsport.com/f1/news/how-much-does-an-f1-car-weigh-in-2023/10437685/">Motorsport.com</a></td>
+</tr>
+<tr>
+<td>2014-2021 hybrid</td>
+<td>McLaren MP4-31</td>
+<td>2016</td>
+<td>Honda RA616H 1.6 L V6 turbo hybrid (with MGU-K and MGU-H, two electric motor-generators)</td>
+<td>Not published by Honda or McLaren. Gap</td>
+<td><strong>702 kg (1,548 lb)</strong> with driver (<a href="https://global.honda/en/F1/machine/2016_McLarenHondaMP431/">Honda</a>)</td>
+<td>Era context: <strong>372.5 km/h (231 mph)</strong>, Bottas, Williams, Mexico 2016, the official race record (<a href="https://www.williamsf1.com/articles/253b1dc5-aee9-4d3b-b720-8e30f3a83093/how-fast-can-an-f1-car-go">Williams</a>)</td>
+<td>as listed</td>
+</tr>
+<tr>
+<td>2022-2025 ground effect</td>
+<td>Generic 2022 car ("F1 2022 Generic V3")</td>
+<td>2022-25</td>
+<td>1.6 L V6 turbo hybrid</td>
+<td><strong>~1,000 hp (746 kW)</strong> class (Aston Martin's figure for its 2025 car)</td>
+<td><strong>798 kg (1,759 lb)</strong> with driver (2022 to 2025; F1.com gives 800 kg for 2025)</td>
+<td>Gap (varies by track)</td>
+<td><a href="https://www.astonmartinf1.com/en-GB/AMR25">Aston Martin F1 AMR25</a>; <a href="https://www.motorsport.com/f1/news/how-much-does-an-f1-car-weigh-in-2023/10437685/">Motorsport.com</a></td>
+</tr>
+<tr>
+<td>2026 active aero</td>
+<td>Fan concept ("My take on the 2026 F1 regulations")</td>
+<td>2026</td>
+<td>1.6 L V6 turbo + one electric motor (MGU-K, no MGU-H), 100% sustainable fuel</td>
+<td><strong>~400 kW engine + 350 kW electric ≈ 750 kW (~1,000 hp)</strong> peak</td>
+<td><strong>768 kg (1,693 lb)</strong> minimum with driver</td>
+<td><strong>342 km/h (213 mph)</strong> in Monza qualifying; <strong>358 km/h (222 mph)</strong> top 2026 speed trap (our calculation from F1 timing via <a href="https://docs.fastf1.dev/">FastF1</a>)</td>
+<td><a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond">FIA</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Weight through the years</strong> (minimum weight including driver, per <a href="https://www.motorsport.com/f1/news/how-much-does-an-f1-car-weigh-in-2023/10437685/">Motorsport.com</a>): 2008 585 kg, 2009 605, 2010 620, 2011 to 2012 640, 2013 642, 2014 691, 2015 to 2016 702, 2017 728, 2018 734, 2019 743, 2020 746, 2021 752, 2022 798. The 2026 car is 768 kg (<a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond">FIA</a>). This makes a good animated bar on the slider: cars got heavier with hybrid batteries and safety structures, then lighter again in 2026.</p>
+<p><strong>Slider caption ideas:</strong>
+- 1954: "A front-engined car on skinny tyres, about a quarter of today's power."
+- 1967: "The engine moved behind the driver, and wings were about to appear."
+- 1978: "A giant fan sucked the car to the ground. It won its only race and was withdrawn."
+- 1983/1988: "Tiny 1.5-litre turbo engines with huge power."
+- 2004: "Screaming V10s at 18,000+ rpm."
+- 2014: "Hybrids arrive."
+- 2022: "Ground effect returns."
+- 2026: "Wings that move by themselves and half the power from electricity."</p>
+<p>How the 1983/1988 numbers compare to a family car: about 640 to 700 hp from an engine the size of a 1.5-litre city car's (our comparison).</p>
+<hr />
+<h2>Sources</h2>
+<p><strong>Official: FIA and Formula 1</strong>
+- FIA 2026 Sporting Regulations, Section B, Issue 09 (1 Oct 2026): <a href="https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf">https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf</a>
+- FIA 2026 regulations overview: <a href="https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond">https://www.fia.com/news/new-era-competition-fia-showcases-future-focused-formula-1-regulations-2026-and-beyond</a>
+- FIA Malaysia calendar announcement: <a href="https://www.fia.com/news/fia-and-fom-confirm-malaysia-will-join-2026-calendar-host-venue-bahrain-grand-prix">https://www.fia.com/news/fia-and-fom-confirm-malaysia-will-join-2026-calendar-host-venue-bahrain-grand-prix</a>
+- FIA 2026 Italian GP circuit map: <a href="https://www.fia.com/system/files/decision-document/2026_italian_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">https://www.fia.com/system/files/decision-document/2026_italian_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf</a>
+- FIA 2026 British GP circuit map: <a href="https://www.fia.com/system/files/decision-document/2026_british_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf">https://www.fia.com/system/files/decision-document/2026_british_grand_prix_-_competition_notes_-_circuit_map_pit_lane_drawing_emergency_exits_map_and_red_zone.pdf</a>
+- Formula1.com 2026 calendar and race pages: <a href="https://www.formula1.com/en/racing/2026">https://www.formula1.com/en/racing/2026</a> (each race at /en/racing/2026/{race})
+- Formula1.com team pages: <a href="https://www.formula1.com/en/teams">https://www.formula1.com/en/teams</a> (each team at /en/teams/{team})
+- Formula1.com 2026 key terms: <a href="https://www.formula1.com/en/latest/article/explained-the-new-key-terms-for-formula-1s-new-for-2026-rules.3T5BU6TC9quGcIpGzoWkY0">https://www.formula1.com/en/latest/article/explained-the-new-key-terms-for-formula-1s-new-for-2026-rules.3T5BU6TC9quGcIpGzoWkY0</a>
+- Formula1.com, why there is no active aero at Monaco: <a href="https://www.formula1.com/en/latest/article/explained-why-active-aero-will-not-be-used-at-the-monaco-grand-prix.4nLtpjM9ZTUbPBQLmeAbj4">https://www.formula1.com/en/latest/article/explained-why-active-aero-will-not-be-used-at-the-monaco-grand-prix.4nLtpjM9ZTUbPBQLmeAbj4</a>
+- Formula1.com circuit guides: <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-autodromo-nazionale-monza.51PKqBRlxNs0fzLWQzsnd0">Monza</a>, <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-circuit-de-monaco.vFsmfGHr6RWyLFtxi58wi">Monaco</a>, <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-silverstone-2026.5Sl0O8g393enBWVIkjRzOr">Silverstone</a>, <a href="https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-sepang-international-circuit.2KTLvyxBXmwVftSJxmYeZ2">Sepang</a>
+- Formula1.com Malaysia announcement: <a href="https://www.formula1.com/en/latest/article/formula-1-and-fia-confirm-malaysia-will-join-2026-calendar-as-host-venue-for-the-bahrain-grand-prix.6lL7vjFEM2VVynRHvg1TCf">https://www.formula1.com/en/latest/article/formula-1-and-fia-confirm-malaysia-will-join-2026-calendar-as-host-venue-for-the-bahrain-grand-prix.6lL7vjFEM2VVynRHvg1TCf</a>
+- Formula1.com pit stop anatomy: <a href="https://www.formula1.com/en/latest/article/anatomy-of-a-pit-stop-how-do-f1-teams-service-their-cars-in-less-than-two.5p9LNdd8XJdvP4mRsXoGsB">https://www.formula1.com/en/latest/article/anatomy-of-a-pit-stop-how-do-f1-teams-service-their-cars-in-less-than-two.5p9LNdd8XJdvP4mRsXoGsB</a>
+- Formula1.com DHL Fastest Pit Stop 2026: <a href="https://www.formula1.com/en/results/2026/awards/fastest-pit-stops">https://www.formula1.com/en/results/2026/awards/fastest-pit-stops</a>
+- Formula 1 Guidelines (trademarks and data use): <a href="https://www.formula1.com/en/information/guidelines.4EOKE9RRqevL4niTK9kWyt">https://www.formula1.com/en/information/guidelines.4EOKE9RRqevL4niTK9kWyt</a></p>
+<p><strong>Teams and manufacturers</strong>
+- Mercedes, pit stops explained: <a href="https://www.mercedesamgf1.com/news/box-box-pitstop-explained">https://www.mercedesamgf1.com/news/box-box-pitstop-explained</a>
+- Mercedes, g-force explained: <a href="https://www.mercedesamgf1.com/news/g-force-and-formula-one-explained">https://www.mercedesamgf1.com/news/g-force-and-formula-one-explained</a>
+- Williams, "How fast can an F1 car go?": <a href="https://www.williamsf1.com/articles/253b1dc5-aee9-4d3b-b720-8e30f3a83093/how-fast-can-an-f1-car-go">https://www.williamsf1.com/articles/253b1dc5-aee9-4d3b-b720-8e30f3a83093/how-fast-can-an-f1-car-go</a>
+- Williams, Technical Brief: Great Britain: <a href="https://www.williamsf1.com/articles/5df640e6-d376-4422-9de6-000d972c8053/technical-brief-great-britain">https://www.williamsf1.com/articles/5df640e6-d376-4422-9de6-000d972c8053/technical-brief-great-britain</a>
+- Aston Martin F1, AMR25: <a href="https://www.astonmartinf1.com/en-GB/AMR25">https://www.astonmartinf1.com/en-GB/AMR25</a>
+- Brembo 2026 braking facts: <a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monza-2026">Monza</a>, <a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-monaco-2026">Monaco</a>, <a href="https://www.brembo.com/en/motorsport/formula1/2026/facts-uk-2026">UK</a>; 2025 numbers: <a href="https://www.brembo.com/en/motorsport/formula1/2025-numbers">https://www.brembo.com/en/motorsport/formula1/2025-numbers</a>
+- Ferrari heritage pages: <a href="https://www.ferrari.com/en-EN/formula1/312-f1-67">312 F1-67</a>, <a href="https://www.ferrari.com/en-EN/formula1/312-t">312 T</a>, <a href="https://www.ferrari.com/en-EN/formula1/f2004">F2004</a>; SF90 Stradale: <a href="https://www.ferrari.com/en-EN/auto/sf90-stradale">https://www.ferrari.com/en-EN/auto/sf90-stradale</a>
+- Ferrari SF90 Stradale technical specifications (official sheet, hosted by the Malaysian importer): <a href="https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf">https://autointernational.com.my/WebNews/News/Year%202020/Ferrari%20SF90%20Stradale%20launch%20-%2023%20Sept%2020/TECHNICAL%20SPECIFICATIONS.pdf</a>
+- Mercedes-Benz archive W196: <a href="https://mercedes-benz-publicarchive.com/marsClassic/en/instance/ko/Mercedes-Benz-W-196-R-streamlined-racing-car-1954.xhtml?oid=6873">1954</a>, <a href="https://mercedes-benz-publicarchive.com/marsClassic/en/instance/ko/Mercedes-Benz-W-196-R-racing-car-1955.xhtml?oid=6876">1955</a>
+- BMW Group press, BT52 engine: <a href="https://www.press.bmwgroup.com/global/article/attachment/T0299937EN/436963">https://www.press.bmwgroup.com/global/article/attachment/T0299937EN/436963</a>
+- Honda F1 machine pages: <a href="https://global.honda/en/F1/machine/1988_McLarenHondaMP44/">MP4/4</a>, <a href="https://global.honda/en/F1/machine/2016_McLarenHondaMP431/">MP4-31</a>
+- McLaren heritage MP4/4: <a href="https://www.mclaren.com/racing/heritage/formula-1/cars/1988-formula-1-mclaren-mp4-4/">https://www.mclaren.com/racing/heritage/formula-1/cars/1988-formula-1-mclaren-mp4-4/</a>
+- Renault RS27 engine: <a href="https://www.renault.com.gh/discover/MoteurRS272012.html">https://www.renault.com.gh/discover/MoteurRS272012.html</a>
+- Airbus A320neo: <a href="https://aircraft.airbus.com/en/aircraft/a320-family/a320neo">https://aircraft.airbus.com/en/aircraft/a320-family/a320neo</a>
+- US Air Force F-16 fact sheet: <a href="https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/">https://www.af.mil/About-Us/Fact-Sheets/Display/Article/104505/f-16-fighting-falcon/</a></p>
+<p><strong>Media and reference</strong>
+- The Race: <a href="https://www.the-race.com/formula-1/why-f1-cars-wont-run-active-aero-in-monaco/">Monaco active aero</a>; <a href="https://www.the-race.com/formula-1/nine-things-you-may-not-know-about-brabhams-iconic-f1-fan-car/">Brabham fan car</a>
+- Motorsport.com: <a href="https://www.motorsport.com/f1/news/f1-monaco-grand-prix-without-active-aerodynamics-no-reversible-wings-but-will-there-be-any-surprises/10825064/">Monaco without active aero</a>; <a href="https://www.motorsport.com/f1/news/monaco-scraps-mandatory-two-stop-rule-for-2026-/10801049/">Monaco two-stop rule scrapped</a>; <a href="https://www.motorsport.com/f1/news/how-much-does-an-f1-car-weigh-in-2023/10437685/">F1 car weights by year</a>
+- Autosport: <a href="https://www.autosport.com/f1/news/how-the-fia-is-limiting-f1-cars-top-speed-with-new-engine-maps-at-monaco-gp/10825365/">Monaco engine maps</a>; <a href="https://www.autosport.com/f1/news/most-successful-f1-teams-which-team-has-the-most-constructors-titles-5367606/5367606/">most successful teams</a>
+- PlanetF1, Straight Mode zone count: <a href="https://www.planetf1.com/news/italian-grand-prix-2026-fia">https://www.planetf1.com/news/italian-grand-prix-2026-fia</a>
+- The Guardian, Bahrain/Saudi cancellations: <a href="https://www.theguardian.com/sport/2026/mar/14/formula-one-cancel-bahrain-saudi-arabia-grand-prix-war-middle-east">https://www.theguardian.com/sport/2026/mar/14/formula-one-cancel-bahrain-saudi-arabia-grand-prix-war-middle-east</a>
+- Car and Driver, Corolla Hybrid test: <a href="https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/">https://www.caranddriver.com/reviews/a41626448/2023-toyota-corolla-hybrid-se-awd-by-the-numbers/</a>
+- Guinness World Records, fastest pit stop: <a href="https://www.guinnessworldrecords.com/world-records/108666-fastest-formula-one-pit-stop">https://www.guinnessworldrecords.com/world-records/108666-fastest-formula-one-pit-stop</a>
+- US 14 CFR 25.337 (airliner load limits): <a href="https://www.law.cornell.edu/cfr/text/14/25.337">https://www.law.cornell.edu/cfr/text/14/25.337</a>
+- Grand Prix Engines (Cosworth story): <a href="https://www.grandprixengines.co.uk/cosworthstory.pdf">https://www.grandprixengines.co.uk/cosworthstory.pdf</a>
+- Wikipedia (secondary, used only where marked): <a href="https://en.wikipedia.org/wiki/Lotus_72">Lotus 72</a>, <a href="https://en.wikipedia.org/wiki/Brabham_BT46">Brabham BT46</a>, <a href="https://en.wikipedia.org/wiki/Benetton_B190">Benetton B190</a>, <a href="https://en.wikipedia.org/wiki/McLaren_MP4/4">McLaren MP4/4</a></p>
+<p><strong>Data and geometry</strong>
+- FastF1 (MIT; unofficial F1 live timing access): <a href="https://docs.fastf1.dev/">https://docs.fastf1.dev/</a> and <a href="https://github.com/theOehrly/Fast-F1">https://github.com/theOehrly/Fast-F1</a>
+- bacinger/f1-circuits (MIT): <a href="https://github.com/bacinger/f1-circuits">https://github.com/bacinger/f1-circuits</a> (licence: <a href="https://github.com/bacinger/f1-circuits/blob/master/LICENSE.md">https://github.com/bacinger/f1-circuits/blob/master/LICENSE.md</a>)
+- OpenStreetMap copyright and ODbL: <a href="https://www.openstreetmap.org/copyright">https://www.openstreetmap.org/copyright</a> and <a href="https://opendatacommons.org/licenses/odbl/1-0/">https://opendatacommons.org/licenses/odbl/1-0/</a>
+- Sketchfab track models (CC-BY 4.0), linked in section 1.3; licence: <a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a>
+- Three.js docs: <a href="https://threejs.org/docs/#api/en/extras/curves/CatmullRomCurve3">https://threejs.org/docs/#api/en/extras/curves/CatmullRomCurve3</a> and <a href="https://threejs.org/docs/#api/en/extras/core/Curve">https://threejs.org/docs/#api/en/extras/core/Curve</a></p>
+<p>All 107 links were checked on 15 Oct 2026 (MYT) and resolve. Sketchfab and the US Air Force site block simple scripts, so those were confirmed through the Sketchfab API and a browser-style fetch.</p>
+<hr />
+<h2>Gaps and cautions</h2>
+<ol>
+<li><strong>Lap-animation numbers are our calculations</strong>, not official. They come from about-4-per-second F1 timing (via FastF1) and are rounded. Braking points are ±25 m and apex speeds ±5 to 10 km/h. Formula 1 owns the timing data: keep the use educational and non-commercial, and ask F1 before any commercial launch.</li>
+<li><strong>Straight Mode zone end points</strong> are not printed on the FIA maps. We took the end as the braking point. The Silverstone A1 and A3 end points are our estimates. Zones can change between events and between years, so re-check the FIA event map for each race.</li>
+<li><strong>Canada Straight Mode zone count conflicts</strong> (PlanetF1 3 vs Formula1.com 4). UNVERIFIED.</li>
+<li><strong>Williams constructors' titles:</strong> F1.com 8 vs Autosport 9. UNVERIFIED.</li>
+<li><strong>No official 2026 0-100 / 0-200 km/h figures.</strong> Ours are from race starts with full fuel. <strong>No official 200-0 km/h braking figures</strong> for F1 or the SF90; our estimates are marked UNVERIFIED.</li>
+<li><strong>2026 cornering g</strong> has no published figure yet (the 2024 cars reached about 5 g).</li>
+<li><strong>Airliner take-off speed and acceleration</strong>: no official A320neo figure found.</li>
+<li><strong>Era cards:</strong> top speeds are mostly missing for the older cars. Weights are missing for the W196, Lotus 72D, BT46B and BT52. Secondary sources (Wikipedia/StatsF1) were used for the Lotus 72, BT46B, B190 and as a third MP4/4 value; all are marked. MP4-31 power was never published.</li>
+<li><strong>Corner counts</strong> for the six remaining rounds use 2025 timing data. Madring and Sepang counts come from F1.com text, not timing data.</li>
+<li><strong>Team details:</strong> Toyota's exact role at Haas is not explained on its F1.com page. Team chiefs can change mid-season, so re-check before launch.</li>
+<li><strong>3D track models:</strong> all CC-BY, but some may be ported from games. Check each model's description and remove sponsor textures. No CC0 tracks were found.</li>
+<li><strong>bacinger GeoJSON</strong> was originally traced from a Google My Maps layer. It is fine for outlines, but it is not survey grade, and it has no per-point elevation.</li>
+<li><strong>The 2026 season is in progress</strong> (17 of 23 rounds done on 15 Oct 2026). Results, fastest pit stops and team titles will change.</li>
+</ol>
+</body></html>
