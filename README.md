@@ -80,9 +80,10 @@ site/          The website (this folder is what gets published)
   index.html   The whole site in one file
   og.jpg       Preview image for social media links
   assets/      three.js files and era poster images
-md/            Research notes behind the site: facts, sources and open questions
-html/          The same research notes, styled for reading in a browser
-json/          Lap data for the circuit exhibit
+research/
+  notes/       Research notes behind the site: facts, sources and open questions
+  html/        The same research notes, styled for reading in a browser
+data/          Lap data for the circuit exhibit
 docs/images/   Screenshots used in this README
 ```
 
@@ -103,3 +104,7 @@ The site is hosted on Cloudflare Pages, connected to this repository:
 ---
 
 This is an unofficial, non-commercial educational fan project, with no affiliation to Formula 1, the FIA or any team. Team names are used as plain text only; no logos or liveries are shown.
+
+## License
+
+The site content and code are licensed under [CC BY-NC 4.0](LICENSE): free to share and adapt with attribution, for non-commercial use. three.js keeps its own MIT licence (see `site/assets/THREE-LICENSE.txt`).

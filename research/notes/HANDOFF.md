@@ -14,15 +14,15 @@ open-wheel-lab/
     index.html                   The whole site in one file (about 460 KB)
     og.jpg                       Social preview image
     assets/                      Three.js, OrbitControls, RoomEnvironment, era poster images
-  md/
+  research/notes/
     HANDOFF.md                   This file
     car_overview_and_history.md  Parts 1-4: car dimensions, exploded-view parts, history, engines
     era_3d_models.md             Free 3D models per era (licences, polygon counts, sizes)
     tracks_teams_pitstop_features.md  Circuits, teams, comparison tool, pit stop game, era spec cards
-  html/
+  research/html/
     car_overview_and_history.html           Styled copy of the .md of the same name
     tracks_teams_pitstop_features.html      Styled copy of the .md of the same name
-  json/
+  data/
     lap_keyframes.json           Per-corner lap data for the circuit animation
 ```
 
@@ -64,7 +64,7 @@ Alternates and the generic fallback are in the file. The Grab3D "Race Car" (CC0,
 4. **Pit stop game.** Crew roles (22), step-by-step timeline of a 2.2 s stop, record 1.80 s (McLaren, Qatar 2023), pit lane limit 80 km/h, penalties and tyre rules, suggested scoring windows.
 5. **Era timeline slider.** 13 spec cards matching the models in era_3d_models.md.
 
-### json/lap_keyframes.json
+### data/lap_keyframes.json
 Derived, rounded per-corner data for one 2026 qualifying lap each at Monza (Verstappen), Monaco (Antonelli pole) and Silverstone (Leclerc): distance along the lap in metres, position from 0 to 1, entry and apex speed, gear, braking point, and Straight Mode (active aero low-drag) zones. Not official F1 data.
 
 ## 4. The website: site/index.html
